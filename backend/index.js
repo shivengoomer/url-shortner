@@ -1,16 +1,32 @@
-const express = require('express')
-const app = express()
-require('dotenv').config()
-const port = process.env.PORT || 5000
+const express = require("express");
+const app = express();
+app.use(express.json());
+require("dotenv").config();
+const port = process.env.PORT || 5000;
+const urlRoute = require("./routes/urlRoutes");
+const userRoutes = require("./routes/userRoutes");
+const mongoose = require("mongoose");
 
-// !important! 
+// !important!
 // you need to install the following libraries |express|[dotenv > if required]
-// or run this command >> npm i express dotenv 
+// or run this command >> npm i express dotenv
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {});
+    console.log("MongoDB is connected " + `${process.env.MONGO_URI}`);
+  } catch (error) {
+    console.error("MongoDB connection error:", error.message);
+    process.exit(1);
+  }
+};
 
-app.get('/' , (req , res)=>{
-   res.send('hello from simple server :)')
+connectDB();
+app.use("/url", urlRoute);
+app.use("/user", userRoutes);
+app.get("/", (req, res) => {
+  res.json({ message: "hello from simple server :)" });
+});
 
-})
-
-
-app.listen(port , ()=> console.log('> Server is up and running on port : ' + port))
+app.listen(port, () =>
+  console.log("> Server is up and running on port : " + port)
+);
