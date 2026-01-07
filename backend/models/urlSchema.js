@@ -1,4 +1,5 @@
 const { Mongoose, Schema, default: mongoose } = require("mongoose");
+const User = require("./userSchema");
 const urlSchema = new Schema(
   {
     shortId: {
@@ -8,6 +9,11 @@ const urlSchema = new Schema(
     },
     longUrl: {
       type: String,
+      require: true,
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       require: true,
     },
     visitHistory: [

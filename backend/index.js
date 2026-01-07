@@ -5,7 +5,9 @@ require("dotenv").config();
 const port = process.env.PORT || 5000;
 const urlRoute = require("./routes/urlRoutes");
 const userRoutes = require("./routes/userRoutes");
+
 const mongoose = require("mongoose");
+const { isAuthenticated } = require("./controllers/authHelper");
 
 // !important!
 // you need to install the following libraries |express|[dotenv > if required]

@@ -1,7 +1,7 @@
 const Url = require("../models/urlSchema");
 const shortid = require("shortid");
 
-const GenNewShortUrl = async (userUrl, res) => {
+const GenNewShortUrl = async (userUrl, userId) => {
   shortid.characters(
     "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@"
   );
@@ -9,9 +9,9 @@ const GenNewShortUrl = async (userUrl, res) => {
   await Url.create({
     shortId: shortId,
     longUrl: userUrl,
+    createdBy: userId,
     visitHistory: [],
   });
-  res.json(shortId);
 };
 
 module.exports = { GenNewShortUrl };

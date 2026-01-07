@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
-const { genToken,check, isAdmin } = require("../controllers/authHelper");
+const { genToken, check, isAdmin } = require("../controllers/authHelper");
 const User = require("../models/userSchema");
 dotenv.config();
 
