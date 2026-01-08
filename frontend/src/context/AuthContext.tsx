@@ -6,6 +6,7 @@ import React, {
   ReactNode,
 } from "react";
 import { apiRequest } from "../api";
+import { Navigate } from "react-router-dom";
 
 interface User {
   id: string;
@@ -95,4 +96,33 @@ export const useAuth = () => {
     throw new Error("useAuth must be used within AuthProvider");
   }
   return context;
+};
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+  adminOnly?: boolean; // optional: restrict route to admin users
+}
+
+export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+  children,
+  adminOnly = false,
+}) => {
+  const { user, loading, isAdmin } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
+        <p className="animate-pulse text-lg">Loading...</p>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (adminOnly && !isAdmin) {
+    return <Navigate to="/" replace />;
+  }
+
+  return <>{children}</>;
 };

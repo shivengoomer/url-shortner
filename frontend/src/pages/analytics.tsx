@@ -8,6 +8,7 @@ interface Url {
   longUrl: string;
   shortId: string;
   visitHistory: { timestamp: number }[];
+  createdAt?: string;
 }
 
 export const AnalyticsListPage: React.FC = () => {
@@ -19,7 +20,16 @@ export const AnalyticsListPage: React.FC = () => {
       try {
         setLoading(true);
         const res = await apiRequest("/url", { auth: true });
-        setUrls(Array.isArray(res) ? res : []);
+        const urlArray: Url[] = Array.isArray(res) ? res : [];
+
+        // Sort newest first
+        urlArray.sort(
+          (a, b) =>
+            new Date(b.createdAt || "").getTime() -
+            new Date(a.createdAt || "").getTime()
+        );
+
+        setUrls(urlArray);
       } finally {
         setLoading(false);
       }
@@ -61,7 +71,7 @@ export const AnalyticsListPage: React.FC = () => {
               className="group block bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 hover:bg-white/20 transition"
             >
               <div className="flex justify-between items-center">
-                <div className="max-w-[70%]">
+                <div className="max-w-[70%] space-y-1">
                   <p className="text-gray-400 text-sm truncate">
                     {url.longUrl}
                   </p>
@@ -70,6 +80,12 @@ export const AnalyticsListPage: React.FC = () => {
                     <Link2 className="w-4 h-4 text-gray-300" />
                     short.ly/{url.shortId}
                   </div>
+
+                  {url.createdAt && (
+                    <p className="text-xs text-gray-500">
+                      Created: {new Date(url.createdAt).toLocaleString()}
+                    </p>
+                  )}
                 </div>
 
                 <div className="flex items-center gap-2 text-sm text-gray-300">

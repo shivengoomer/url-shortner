@@ -72,7 +72,7 @@ export const ProfilePage: React.FC = () => {
       <div className="relative z-10">
         <Header />
 
-        <div className="max-w-3xl mx-auto py-24">
+        <div className="max-w-3xl mx-auto py-24 text-white">
           <div className="bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl p-8">
             <div className="flex justify-between items-center mb-6">
               <h1 className="text-3xl font-bold">My Profile</h1>
@@ -100,7 +100,7 @@ export const ProfilePage: React.FC = () => {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm text-gray-400 mb-2">
+                <label className="block text-sm text-white mb-2">
                   Email
                 </label>
                 <input

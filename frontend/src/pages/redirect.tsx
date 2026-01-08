@@ -7,7 +7,9 @@ export const RedirectPage: React.FC = () => {
   useEffect(() => {
     if (shortId) {
       // Redirect to backend endpoint which will handle the actual redirect
-      window.location.href = `http://localhost:5000/url/${shortId}`;
+      window.location.href = `${
+        import.meta.env.VITE_BACKEND_URL
+      }/url/${shortId}`;
     }
   }, [shortId]);
 

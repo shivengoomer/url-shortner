@@ -26,7 +26,6 @@ export const LoginPage: React.FC = () => {
   const handleSubmit = async () => {
     setError("");
     setLoading(true);
-
     try {
       if (isSignup) {
         const { name, email, phone, password, confirmPassword } = form;
@@ -48,10 +47,7 @@ export const LoginPage: React.FC = () => {
           body: JSON.stringify({ name, email, phone, password }),
         });
 
-        // Login user with token and data
         login(data.token, data.user);
-
-        // Redirect to home
         navigate("/");
       } else {
         const { email, password } = form;
@@ -67,10 +63,7 @@ export const LoginPage: React.FC = () => {
           body: JSON.stringify({ email, password }),
         });
 
-        // Login user with token and data
         login(data.token, data.user);
-
-        // Redirect to home
         navigate("/");
       }
     } catch (err) {
@@ -88,76 +81,81 @@ export const LoginPage: React.FC = () => {
         <Aurora />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10">
-        <div className="w-full max-w-md bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl p-8 shadow-2xl">
-          <h2 className="text-3xl font-bold mb-6 text-center">
+      {/* Form Card */}
+      <div className="relative z-10 w-full max-w-md">
+        <div className="bg-white/5 backdrop-blur-xl border border-white/20 rounded-3xl p-10 shadow-2xl flex flex-col gap-4">
+          <h2 className="text-3xl font-bold mb-4 text-center">
             {isSignup ? "Create Account" : "Welcome Back"}
           </h2>
 
+          {/* Error */}
           {error && (
-            <div className="mb-4 p-3 rounded-xl bg-red-500/20 border border-red-500/50 text-red-200 text-sm">
+            <div className="mb-2 p-3 rounded-xl bg-red-500/20 border border-red-500/50 text-red-200 text-sm text-center">
               {error}
             </div>
           )}
 
-          {isSignup && (
+          <div className="flex flex-col gap-4">
+            {isSignup && (
+              <input
+                name="name"
+                placeholder="Full Name"
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400 text-white placeholder-gray-400 transition"
+              />
+            )}
+
             <input
-              name="name"
-              placeholder="Full Name"
+              name="email"
+              type="email"
+              placeholder="Email"
               onChange={handleChange}
-              className="w-full mb-4 px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400 text-white placeholder-gray-400 transition"
             />
-          )}
 
-          <input
-            name="email"
-            type="email"
-            placeholder="Email"
-            onChange={handleChange}
-            className="w-full mb-4 px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
-          />
+            {isSignup && (
+              <input
+                name="phone"
+                placeholder="Phone Number"
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400 text-white placeholder-gray-400 transition"
+              />
+            )}
 
-          {isSignup && (
             <input
-              name="phone"
-              placeholder="Phone Number"
-              onChange={handleChange}
-              className="w-full mb-4 px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
-            />
-          )}
-
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            onChange={handleChange}
-            className="w-full mb-4 px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
-          />
-
-          {isSignup && (
-            <input
-              name="confirmPassword"
+              name="password"
               type="password"
-              placeholder="Confirm Password"
+              placeholder="Password"
               onChange={handleChange}
-              className="w-full mb-6 px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400 text-white placeholder-gray-400 transition"
             />
-          )}
 
+            {isSignup && (
+              <input
+                name="confirmPassword"
+                type="password"
+                placeholder="Confirm Password"
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400 text-white placeholder-gray-400 transition"
+              />
+            )}
+          </div>
+
+          {/* Submit Button */}
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="w-full py-3 rounded-xl bg-white text-black font-semibold hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed mt-4"
           >
             {loading ? "Processing..." : isSignup ? "Sign Up" : "Login"}
           </button>
 
-          <p className="text-center text-gray-400 mt-6">
+          {/* Toggle Signup/Login */}
+          <p className="text-center text-gray-400 mt-4">
             {isSignup ? "Already have an account?" : "Don’t have an account?"}{" "}
             <span
               onClick={() => setIsSignup(!isSignup)}
-              className="text-white hover:underline cursor-pointer"
+              className="text-cyan-400 hover:text-cyan-300 hover:underline cursor-pointer transition"
             >
               {isSignup ? "Login" : "Sign up"}
             </span>
