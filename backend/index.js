@@ -35,7 +35,7 @@ connectDB();
 app.use("/url", urlRoute);
 app.use("/user", userRoutes);
 app.get("/", (req, res) => {
-  res.json({ message: "hello from simple server :)" });
+  res.json({ message: "hello from simple server made by SG :)" });
 });
 
 app.listen(port, () =>
