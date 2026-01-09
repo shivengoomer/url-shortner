@@ -22,22 +22,31 @@ export const HomePage: React.FC = () => {
       <div className="fixed inset-0 z-0">
         <Aurora />
       </div>
-
       <main className="relative z-10 px-6">
         <section className="min-h-[calc(100vh-80px)] flex items-center justify-center">
           <div className="grid md:grid-cols-2 gap-14 max-w-6xl w-full items-center mt-20">
             <div>
-              <h1 className="text-7xl md:text-7xl font-bold leading-tight tracking-tight mb-3">
-                Clix <br />
-                <span className="mt-0 pt-0 text-6xl text-gray-400">
+              <div className="mb-3">
+                <div className="flex items-center gap-4">
+                  <span className="flex items-center gap-2 text-9xl md:text-9xl font-bold leading-tight tracking-tight">
+                    <img
+                      src="/clix-img.png"
+                      alt="Clix Logo"
+                      className="pt-10 w-16 h-16 md:w-20 md:h-30"
+                    />
+                    Clix
+                  </span>
+                </div>
+
+                <h2 className="text-6xl text-gray-400 font-semibold mt-2">
                   Made{" "}
                   <RotatingText
                     texts={["Simple", "Easier"]}
-                    className=" text-cyan-300 font-bold rounded-lg inline-block"
+                    className="text-cyan-300 font-bold rounded-lg inline-block"
                     rotationInterval={3000}
                   />
-                </span>
-              </h1>
+                </h2>
+              </div>
 
               <p className="text-gray-400 mb-6 text-lg leading-relaxed">
                 Shorten links, track engagement, and share smarter — all in one
@@ -91,7 +100,7 @@ export const HomePage: React.FC = () => {
             Tools Built for Modern Sharing
           </h2>
 
-          <p className="text-gray-400 max-w-xl mx-auto mb-14">
+          <p className="text-gray-300 max-w-xl text-lg mx-auto mb-14">
             Create short links, measure performance, and organize everything
             from one interface.
           </p>
@@ -116,7 +125,105 @@ export const HomePage: React.FC = () => {
             />
           </div>
         </section>
+        <section className="w-full py-6  text-white">
+          <div className="max-w-6xl mx-auto px-6 mt-10">
+            <h2 className="text-5xl font-black text-center mb-12">
+              How It Works
+              <br />
+              <span className="text-lg font-normal text-gray-300">
+                From creation to analytics — Clix provides complete control and
+                visibility over your links.
+              </span>
+            </h2>
+
+            <div className="space-y-30 pt-20">
+              {/* Step 1 */}
+              <div className="flex flex-col md:flex-row items-center gap-10">
+                <img
+                  src="/screenshots/shorten.png"
+                  alt="Shorten"
+                  className="w-full md:w-1/2  shadow-amber-50 shadow-lg rounded-xl shadow-lg"
+                />
+                <div className="md:w-1/2">
+                  <h3 className="text-5xl font-bold mb-3">1. Shorten</h3>
+                  <p className="text-xl text-gray-300">
+                    Paste a long URL, click shorten, and instantly get a clean,
+                    trackable link!
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 2 */}
+              <div className="flex flex-col md:flex-row-reverse items-center gap-10">
+                <img
+                  src="/screenshots/analytics.png"
+                  alt="Manage"
+                  className="w-full md:w-1/2 object-fill  shadow-amber-50 shadow-lg rounded-xl "
+                />
+                <div className="md:w-1/2">
+                  <h3 className="text-5xl font-bold mb-3">2. Manage URLs</h3>
+                  <p className="text-xl text-gray-300">
+                    View your shortened links, copy them, and track clicks in
+                    one place.
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 3 */}
+              <div className="flex flex-col md:flex-row items-center gap-10">
+                <img
+                  src="/screenshots/dashboard.png"
+                  alt="Dashboard"
+                  className="w-full md:w-1/2 rounded-xl shadow-lg  shadow-amber-50 shadow-lg"
+                />
+                <div className="md:w-1/2">
+                  <h3 className="text-5xl font-bold mb-3">
+                    3. Dashboard + History
+                  </h3>
+                  <p className="text-xl text-gray-300">
+                    Dive into analytics — visit history, click counts, time
+                    info, and more.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
+      <footer className="w-full border-t items-center border-white/10 bg-black/5 backdrop-blur-xl text-gray-300 py-8 mt-20 gap-20">
+        <div className="text-2xl max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center ">
+          {/* Logo + Name */}
+          <div className="flex items-center gap-5">
+            <img
+              src="/clix-img.png"
+              alt="Clix Logo"
+              className="w-10 h-10 opacity-90"
+            />
+            <span className="text-xl font-semibold text-white">Clix</span>
+          </div>
+
+          {/* Links */}
+          <div className="flex items-center gap-10 text-lg">
+            <a href="#" className="hover:text-cyan-300 transition">
+              About
+            </a>
+            <a href="#" className="hover:text-cyan-300 transition">
+              Pricing
+            </a>
+            <a href="#" className="hover:text-cyan-300 transition">
+              Docs
+            </a>
+            <a href="#" className="hover:text-cyan-300 transition">
+              Contact
+            </a>
+          </div>
+
+          {/* Copyright */}
+          <p className="text-sm text-gray-400">
+            © {new Date().getFullYear()} Clix. All rights reserved.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 };

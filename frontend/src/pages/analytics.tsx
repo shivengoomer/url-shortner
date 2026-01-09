@@ -42,7 +42,7 @@ export const AnalyticsListPage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-black via-neutral-950 to-black text-white px-6 py-24">
       <div className="max-w-6xl mx-auto space-y-10">
         {/* HEADER */}
-        <header className="flex items-center gap-4">
+        <header className="flex items-center gap-4 ml-10 mt-5 ">
           <div className="p-3 bg-white/10 rounded-xl border border-white/20">
             <TrendingUp className="w-6 h-6" />
           </div>
@@ -55,7 +55,7 @@ export const AnalyticsListPage: React.FC = () => {
         </header>
 
         {/* CONTENT */}
-        <div className="space-y-4">
+        <div className="grid grid-cols-2 gap-5 max-w-5xl mx-auto items-start">
           {loading && (
             <p className="text-center text-gray-400">Loading links...</p>
           )}
@@ -68,10 +68,10 @@ export const AnalyticsListPage: React.FC = () => {
             <Link
               to={`/analytics/${url.shortId}`}
               key={url._id}
-              className="group block bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 hover:bg-white/20 transition"
+              className="group block bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 hover:bg-white/20 transition "
             >
-              <div className="flex justify-between items-center">
-                <div className="max-w-[70%] space-y-1">
+              <div className="flex justify-between items-center max-w-2xl">
+                <div className="max-w-[85%] space-y-1">
                   <p className="text-gray-400 text-sm truncate">
                     {url.longUrl}
                   </p>
