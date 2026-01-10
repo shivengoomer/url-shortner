@@ -18,12 +18,15 @@ const words = [
 
 export const HomePage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
-      <div className="fixed inset-0 z-0">
+    <div className="min-h-screen bg-black text-white relative">
+      <div className="fixed inset-0 h-screen w-full z-0 pointer-events-none">
         <Aurora />
       </div>
       <main className="relative z-10 px-6">
-        <section className="min-h-[calc(100vh-80px)] flex items-center justify-center">
+        <section
+          id="main"
+          className="min-h-[calc(100vh-80px)] flex items-center justify-center"
+        >
           <div className="grid md:grid-cols-2 gap-14 max-w-6xl w-full items-center mt-20">
             <div>
               <div className="mb-3">
@@ -95,17 +98,20 @@ export const HomePage: React.FC = () => {
           </div>
         </section>
 
-        <section className="mt-20 mb-28 text-center">
+        <section
+          id="features"
+          className="mt-20 mb-28 text-center pt-30 pb-30  "
+        >
           <h2 className="text-4xl md:text-5xl font-black mb-4">
             Tools Built for Modern Sharing
           </h2>
 
-          <p className="text-gray-300 max-w-xl text-lg mx-auto mb-14">
+          <p className="text-gray-300 max-w-3xl italic text-lg mx-auto mb-14">
             Create short links, measure performance, and organize everything
             from one interface.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto pt-5">
             <FeatureCard
               icon={<Link2 strokeWidth={1.75} className="w-5 h-5" />}
               title="Shorten Links"
@@ -125,13 +131,14 @@ export const HomePage: React.FC = () => {
             />
           </div>
         </section>
-        <section className="w-full py-6  text-white">
+
+        <section id="how" className="w-full py-6  text-white">
           <div className="max-w-6xl mx-auto px-6 mt-10">
             <h2 className="text-5xl font-black text-center mb-12">
               How It Works
               <br />
-              <span className="text-lg font-normal text-gray-300">
-                From creation to analytics — Clix provides complete control and
+              <span className="text-xl italic font-normal text-gray-300">
+                From creation to analytics Clix provides complete control and
                 visibility over your links.
               </span>
             </h2>
@@ -142,7 +149,7 @@ export const HomePage: React.FC = () => {
                 <img
                   src="/screenshots/shorten.png"
                   alt="Shorten"
-                  className="w-full md:w-1/2  shadow-amber-50 shadow-lg rounded-xl shadow-lg"
+                  className="w-full md:w-1/2  shadow-amber-50 shadow-sm rounded-xl "
                 />
                 <div className="md:w-1/2">
                   <h3 className="text-5xl font-bold mb-3">1. Shorten</h3>
@@ -158,7 +165,7 @@ export const HomePage: React.FC = () => {
                 <img
                   src="/screenshots/analytics.png"
                   alt="Manage"
-                  className="w-full md:w-1/2 object-fill  shadow-amber-50 shadow-lg rounded-xl "
+                  className="w-full md:w-1/2 object-fill  shadow-amber-50 shadow-sm rounded-xl "
                 />
                 <div className="md:w-1/2">
                   <h3 className="text-5xl font-bold mb-3">2. Manage URLs</h3>
@@ -174,7 +181,7 @@ export const HomePage: React.FC = () => {
                 <img
                   src="/screenshots/dashboard.png"
                   alt="Dashboard"
-                  className="w-full md:w-1/2 rounded-xl shadow-lg  shadow-amber-50 shadow-lg"
+                  className="w-full md:w-1/2 rounded-xl shadow-lg  shadow-amber-50 shadow-sm"
                 />
                 <div className="md:w-1/2">
                   <h3 className="text-5xl font-bold mb-3">
@@ -204,14 +211,14 @@ export const HomePage: React.FC = () => {
 
           {/* Links */}
           <div className="flex items-center gap-10 text-lg">
-            <a href="#" className="hover:text-cyan-300 transition">
-              About
+            <a href="#main" className="hover:text-cyan-300 transition">
+              Home
             </a>
-            <a href="#" className="hover:text-cyan-300 transition">
-              Pricing
+            <a href="#features" className="hover:text-cyan-300 transition">
+              Feature
             </a>
-            <a href="#" className="hover:text-cyan-300 transition">
-              Docs
+            <a href="#how" className="hover:text-cyan-300 transition">
+              How
             </a>
             <a href="#" className="hover:text-cyan-300 transition">
               Contact
@@ -219,8 +226,16 @@ export const HomePage: React.FC = () => {
           </div>
 
           {/* Copyright */}
-          <p className="text-sm text-gray-400">
-            © {new Date().getFullYear()} Clix. All rights reserved.
+          <p className="text-sm text-gray-400 items-center">
+            <a
+              href="https://github.com/shivengoomer/url-shortner"
+              className="hover:text-zinc-300 transition flex flex-row items-center"
+            >
+              <img className="h-15" src="https://img.icons8.com/?size=100&id=AZOZNnY73haj&format=png&color=000000"></img>
+              <p className="text-lg font-black">
+                Github <br />© {new Date().getFullYear()} Clix.
+              </p>
+            </a>
           </p>
         </div>
       </footer>
@@ -237,13 +252,13 @@ const FeatureCard = ({
   title: string;
   desc: string;
 }) => (
-  <div className="bg-white/5 border border-white/10 backdrop-blur-xl p-6 rounded-2xl shadow-lg hover:border-white/20 transition duration-300">
+  <div className="bg-white/5 border border-white/10 backdrop-blur-xl p-6 pt-10 pb-10 rounded-2xl shadow-lg hover:border-white/20 transition duration-300">
     <div className="flex items-center gap-3 mb-3 p-2">
       <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
         {icon}
       </div>
       <h3 className="text-2xl font-bold">{title}</h3>
     </div>
-    <p className="text-gray-400 text-sm text-left leading-relaxed">{desc}</p>
+    <p className="text-zinc-300 text-sm text-left leading-relaxed">{desc}</p>
   </div>
 );

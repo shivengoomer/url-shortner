@@ -18,7 +18,7 @@ export const Header: React.FC = () => {
         <Link to="/" className="text-lg font-semibold tracking-wide">
           Clix
         </Link>
-        <nav className="flex items-center gap-4 text-sm text-gray-200">
+        <nav className="flex items-center gap-4 text-sm text-zinc-50">
           {user && (
             <>
               <Link to="/shorten" className="hover:text-white transition">
@@ -37,7 +37,9 @@ export const Header: React.FC = () => {
           {user ? (
             <div className="flex items-center gap-3 ml-4">
               <Link to="/profile">
-                <span className="text-sm font-black text-cyan-300 cursor-pointer">{user.name}</span>
+                <span className="text-sm font-semibold text-cyan-100 cursor-pointer">
+                  {user.name}
+                </span>
               </Link>
               <button
                 onClick={handleLogout}

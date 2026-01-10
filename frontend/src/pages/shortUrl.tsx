@@ -124,7 +124,7 @@ export const ShortUrlPage: React.FC = () => {
                   rel="noopener noreferrer"
                   className="text-white font-medium hover:underline"
                 >
-                  short.ly/{url.shortId}
+                  {window.location.origin}/{url.shortId}
                 </a>
 
                 {url.createdAt && (

@@ -171,7 +171,7 @@ export const AnalyticsDetailPage: React.FC = () => {
             <div>
               <p className="text-gray-400 text-sm mb-1">Short URL</p>
               <code className="text-lg font-semibold">
-                short.ly/{data.reqUrl.shortId}
+                {window.location.origin}/{data.reqUrl.shortId}
               </code>
             </div>
           </div>

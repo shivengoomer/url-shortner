@@ -78,7 +78,7 @@ export const AnalyticsListPage: React.FC = () => {
 
                   <div className="flex items-center gap-2 mt-2 font-medium">
                     <Link2 className="w-4 h-4 text-gray-300" />
-                    short.ly/{url.shortId}
+                    {window.location.origin}/{url.shortId}
                   </div>
 
                   {url.createdAt && (
