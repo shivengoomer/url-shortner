@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/:id", "destination": "https://urlshortnerbackend.azurewebsites.net/:id" }
+    { "source": "/:id", "destination": "https://urlshortnerbackend.azurewebsites.net/url/:id" }
   ]
 }
