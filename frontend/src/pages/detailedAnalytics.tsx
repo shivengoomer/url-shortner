@@ -125,7 +125,40 @@ export const AnalyticsDetailPage: React.FC = () => {
             <p className="text-gray-400">Performance & engagement overview</p>
           </div>
         </header>
+        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8">
+          <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
+            <Link2 className="w-5 h-5" />
+            Link Details
+          </h2>
 
+          <div className="space-y-6">
+            <div>
+              <p className="text-gray-400 text-xl font-semibold mb-1">
+                Original URL :{" "}
+              </p>
+              <a
+                href={data.reqUrl.longUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-white hover:underline break-all"
+              >
+                <ExternalLink className="w-4 h-4" />
+                {data.reqUrl.longUrl}
+              </a>
+            </div>
+
+            <div>
+              <p className="text-gray-400 text-xl font-semibold mb-1">
+                Short URL
+              </p>
+              <a href={`${window.location.origin}/${data.reqUrl.shortId}`}>
+                <code className="text-lg font-semibold">
+                  {window.location.origin}/{data.reqUrl.shortId}
+                </code>
+              </a>
+            </div>
+          </div>
+        </div>
         {/* STATS */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <StatCard
@@ -148,34 +181,6 @@ export const AnalyticsDetailPage: React.FC = () => {
         </div>
 
         {/* LINK DETAILS */}
-        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8">
-          <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
-            <Link2 className="w-5 h-5" />
-            Link Details
-          </h2>
-
-          <div className="space-y-6">
-            <div>
-              <p className="text-gray-400 text-sm mb-1">Original URL</p>
-              <a
-                href={data.reqUrl.longUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-white hover:underline break-all"
-              >
-                <ExternalLink className="w-4 h-4" />
-                {data.reqUrl.longUrl}
-              </a>
-            </div>
-
-            <div>
-              <p className="text-gray-400 text-sm mb-1">Short URL</p>
-              <code className="text-lg font-semibold">
-                {window.location.origin}/{data.reqUrl.shortId}
-              </code>
-            </div>
-          </div>
-        </div>
 
         {/* CHART */}
         {/* CHART + VISIT HISTORY */}

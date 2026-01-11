@@ -42,7 +42,7 @@ export const AnalyticsListPage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-black via-neutral-950 to-black text-white px-6 py-24">
       <div className="max-w-6xl mx-auto space-y-10">
         {/* HEADER */}
-        <header className="flex items-center gap-4 ml-10 mt-5 ">
+        <header className="flex items-center gap-4 ml-15 mt-5 ">
           <div className="p-3 bg-white/10 rounded-xl border border-white/20">
             <TrendingUp className="w-6 h-6" />
           </div>

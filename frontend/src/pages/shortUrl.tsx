@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { apiRequest } from "../api";
 import { MousePointerClick } from "lucide-react";
 interface Url {
@@ -14,6 +15,7 @@ export const ShortUrlPage: React.FC = () => {
   const [urls, setUrls] = useState<Url[]>([]);
   const [loading, setLoading] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const fetchUrls = async () => {
     try {
@@ -38,13 +40,19 @@ export const ShortUrlPage: React.FC = () => {
 
     try {
       setLoading(true);
-      await apiRequest("/url", {
+      const response = await apiRequest("/url", {
         method: "POST",
         auth: true,
         body: JSON.stringify({ longUrl }),
       });
       setLongUrl("");
-      fetchUrls();
+
+      // Navigate to analytics page if shortId is returned
+      if (response?.shortId) {
+        navigate(`/analytics/${response.shortId}`);
+      } else {
+        fetchUrls();
+      }
     } finally {
       setLoading(false);
     }

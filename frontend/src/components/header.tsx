@@ -1,11 +1,12 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 // ---------------- HEADER ----------------
 export const Header: React.FC = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = async () => {
     await logout();
@@ -21,14 +22,35 @@ export const Header: React.FC = () => {
         <nav className="flex items-center gap-4 text-sm text-zinc-50">
           {user && (
             <>
-              <Link to="/shorten" className="hover:text-white transition">
+              <Link
+                to="/shorten"
+                className={`hover:text-white transition ${
+                  location.pathname === "/shorten"
+                    ? "text-white font-semibold border-b-2 border-white pb-0.5"
+                    : ""
+                }`}
+              >
                 Shorten
               </Link>
-              <Link to="/analytics" className="hover:text-white transition">
+              <Link
+                to="/analytics"
+                className={`hover:text-white transition ${
+                  location.pathname === "/analytics"
+                    ? "text-white font-semibold border-b-2 border-white pb-0.5"
+                    : ""
+                }`}
+              >
                 Analytics
               </Link>
               {user.role === "admin" && (
-                <Link to="/admin" className="hover:text-white transition">
+                <Link
+                  to="/admin"
+                  className={`hover:text-white transition ${
+                    location.pathname === "/admin"
+                      ? "text-white font-semibold border-b-2 border-white pb-0.5"
+                      : ""
+                  }`}
+                >
                   Admin
                 </Link>
               )}
