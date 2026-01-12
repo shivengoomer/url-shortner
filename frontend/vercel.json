@@ -1,20 +1,11 @@
 {
   "rewrites": [
     {
-      "source": "/:id",
-      "has": [
-        {
-          "type": "host",
-          "value": "(.*)"
-        }
-      ],
-      "missing": [
-        { "type": "query", "key": "reserved" }
-      ],
-      "destination": "https://urlshortnerbackend.azurewebsites.net/url/:id"
+      "source": "/(shorten|analytics|dashboard|login|register)(.*)",
+      "destination": "/index.html"
     },
     {
-      "source": "/(shorten|analytics|dashboard|login|register)(.*)",
+      "source": "/:shortId",
       "destination": "/index.html"
     },
     {
