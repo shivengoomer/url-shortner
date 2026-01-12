@@ -5,12 +5,18 @@ export const RedirectPage: React.FC = () => {
   const { shortId } = useParams<{ shortId: string }>();
 
   useEffect(() => {
-    if (shortId) {
-      // Redirect to backend endpoint which will handle the actual redirect
-      window.location.href = `${
-        import.meta.env.VITE_BACKEND_URL
-      }/url/${shortId}`;
-    }
+    const isReserved = (id: string) => {
+      const reserved = [
+        "shorten",
+        "analytics",
+        "dashboard",
+        "login",
+        "register",
+      ];
+      return reserved.includes(id);
+    };
+    if (!shortId || isReserved(shortId)) return;
+    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/url/${shortId}`;
   }, [shortId]);
 
   return (
