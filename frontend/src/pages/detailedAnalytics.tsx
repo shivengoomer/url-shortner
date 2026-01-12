@@ -17,6 +17,7 @@ import {
   MousePointerClick,
 } from "lucide-react";
 import { apiRequest } from "../api";
+import CopyButton from "@/components/copyButton";
 
 interface AnalyticsData {
   reqUrl: {
@@ -113,49 +114,67 @@ export const AnalyticsDetailPage: React.FC = () => {
   if (!data) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-neutral-950 to-black text-white px-6 py-24">
-      <div className="max-w-6xl mx-auto space-y-12">
+    <div className="min-h-screen bg-gradient-to-br from-black via-neutral-950 to-black text-white px-4 sm:px-6 py-16 sm:py-24">
+      <div className="max-w-6xl mx-auto space-y-8 sm:space-y-12">
         {/* HEADER */}
-        <header className="flex items-center gap-4">
-          <div className="p-3 bg-white/10 rounded-xl border border-white/20">
-            <TrendingUp className="w-6 h-6" />
+        <header className="flex items-center gap-3 sm:gap-4">
+          <div className="p-2 sm:p-3 bg-white/10 rounded-xl border border-white/20">
+            <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold">Link Analytics</h1>
-            <p className="text-gray-400">Performance & engagement overview</p>
+            <h1 className="text-2xl sm:text-3xl font-bold">Link Analytics</h1>
+            <p className="text-sm sm:text-base text-gray-400">
+              Performance & engagement overview
+            </p>
           </div>
         </header>
-        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8">
-          <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
-            <Link2 className="w-5 h-5" />
+        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-4 sm:p-8">
+          <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2">
+            <Link2 className="w-4 h-4 sm:w-5 sm:h-5" />
             Link Details
           </h2>
 
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             <div>
-              <p className="text-gray-400 text-xl font-semibold mb-1">
+              <p className="text-gray-400 text-lg sm:text-xl font-semibold mb-1">
                 Original URL :{" "}
               </p>
               <a
                 href={data.reqUrl.longUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-white hover:underline break-all"
+                className="flex items-center gap-2 text-sm sm:text-base text-white hover:underline break-all"
               >
-                <ExternalLink className="w-4 h-4" />
+                <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                 {data.reqUrl.longUrl}
               </a>
             </div>
 
             <div>
-              <p className="text-gray-400 text-xl font-semibold mb-1">
+              <p className="text-gray-400 text-lg sm:text-xl font-semibold mb-1">
                 Short URL
               </p>
-              <a href={`${window.location.origin}/${data.reqUrl.shortId}`}>
-                <code className="text-lg font-semibold">
+
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                <a
+                  href={`${window.location.origin}/${data.reqUrl.shortId}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-base sm:text-lg font-semibold text-white hover:underline break-all"
+                >
                   {window.location.origin}/{data.reqUrl.shortId}
-                </code>
-              </a>
+                </a>
+
+                <CopyButton
+                  label="Copy Link"
+                  done="Copied!"
+                  onClick={() =>
+                    navigator.clipboard.writeText(
+                      `${window.location.origin}/${data.reqUrl.shortId}`
+                    )
+                  }
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -184,20 +203,30 @@ export const AnalyticsDetailPage: React.FC = () => {
 
         {/* CHART */}
         {/* CHART + VISIT HISTORY */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           {/* CHART */}
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
-            <h2 className="text-xl font-semibold mb-6">Clicks Over Time</h2>
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-4 sm:p-8">
+            <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">
+              Clicks Over Time
+            </h2>
 
             {chartData.length === 0 ? (
               <p className="text-gray-400">No clicks yet</p>
             ) : (
-              <div className="h-80">
+              <div className="h-64 sm:h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                    <XAxis dataKey="date" stroke="#aaa" />
-                    <YAxis stroke="#aaa" allowDecimals={false} />
+                    <XAxis
+                      dataKey="date"
+                      stroke="#aaa"
+                      tick={{ fontSize: 12 }}
+                    />
+                    <YAxis
+                      stroke="#aaa"
+                      allowDecimals={false}
+                      tick={{ fontSize: 12 }}
+                    />
                     <Tooltip
                       contentStyle={{
                         backgroundColor: "#111",
@@ -220,9 +249,9 @@ export const AnalyticsDetailPage: React.FC = () => {
           </div>
 
           {/* VISIT HISTORY */}
-          <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 max-h-[32rem] overflow-y-auto">
-            <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-              <Calendar className="w-5 h-5" />
+          <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-4 sm:p-6 max-h-[28rem] sm:max-h-[32rem] overflow-y-auto">
+            <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 flex items-center gap-2">
+              <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
               Visit History (Newest First)
             </h2>
 
@@ -233,10 +262,12 @@ export const AnalyticsDetailPage: React.FC = () => {
                 {sortedVisits.map((visit, idx) => (
                   <li
                     key={visit._id?.$oid || idx}
-                    className="py-2 flex justify-between items-center text-gray-200 text-sm"
+                    className="py-2 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-0 text-gray-200 text-xs sm:text-sm"
                   >
                     <span>Visit #{sortedVisits.length - idx}</span>
-                    <span>{visit.formatted}</span>
+                    <span className="text-gray-400 sm:text-gray-200">
+                      {visit.formatted}
+                    </span>
                   </li>
                 ))}
               </ul>

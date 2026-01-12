@@ -14,8 +14,8 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className="fixed top-6 left-1/2 -translate-x-1/2 z-50">
-      <div className="flex items-center gap-8 px-8 py-3 rounded-full bg-white/10 backdrop-blur-2xl border border-white/20 shadow-xl">
+    <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50">
+      <div className="flex items-center gap-4 px-4 lg:px-8 lg:gap-6 py-3 rounded-full bg-white/10 backdrop-blur-2xl border border-white/20 shadow-xl">
         <Link to="/" className="text-lg font-semibold tracking-wide">
           Clix
         </Link>
