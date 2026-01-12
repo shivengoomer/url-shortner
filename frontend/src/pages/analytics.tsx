@@ -15,7 +15,7 @@ interface Url {
 export const AnalyticsListPage: React.FC = () => {
   const [urls, setUrls] = useState<Url[]>([]);
   const [loading, setLoading] = useState(true);
-  const origin = typeof window !== "undefined" ? window.location.origin : "";
+  const origin = typeof window !== "undefined" ? window.location.hostname : "";
 
   useEffect(() => {
     const fetchUrls = async () => {

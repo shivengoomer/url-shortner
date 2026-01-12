@@ -162,7 +162,7 @@ export const AnalyticsDetailPage: React.FC = () => {
                   rel="noopener noreferrer"
                   className="text-base sm:text-lg font-semibold text-white hover:underline break-all"
                 >
-                  {window.location.origin}/{data.reqUrl.shortId}
+                  {window.location.hostname}/{data.reqUrl.shortId}
                 </a>
 
                 <CopyButton

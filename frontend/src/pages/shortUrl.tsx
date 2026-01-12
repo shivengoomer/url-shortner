@@ -117,7 +117,7 @@ export const ShortUrlPage: React.FC = () => {
           )}
 
           {urls.map((url) => {
-            const short = `${window.location.origin}/${url.shortId}`;
+            const short = `${window.location.hostname}/${url.shortId}`;
             return (
               <div
                 key={url._id}
