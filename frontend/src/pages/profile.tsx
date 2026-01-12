@@ -100,24 +100,12 @@ export const ProfilePage: React.FC = () => {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm text-white mb-2">
-                  Email
-                </label>
+                <label className="block text-sm text-white mb-2">Email</label>
                 <input
                   type="email"
                   value={user.email}
                   disabled
                   className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 cursor-not-allowed opacity-60"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm text-gray-400 mb-2">Role</label>
-                <input
-                  type="text"
-                  value={user.role}
-                  disabled
-                  className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 cursor-not-allowed opacity-60 capitalize"
                 />
               </div>
 
