@@ -72,7 +72,9 @@ export const LoginPage: React.FC = () => {
       navigate("/");
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Network error. Please try again."
+        err instanceof Error
+          ? err.message.msg
+          : "Network error. Please try again."
       );
     } finally {
       setLoading(false);
