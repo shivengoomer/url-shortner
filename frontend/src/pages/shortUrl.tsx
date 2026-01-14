@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiRequest } from "../api";
 import { MousePointerClick, Trash2, BarChart2, Copy } from "lucide-react";
+import { toast } from "sonner";
 
 interface Url {
   _id: string;
@@ -74,6 +75,9 @@ export const ShortUrlPage: React.FC = () => {
 
   const copyShort = (shortId: string) => {
     navigator.clipboard.writeText(`${window.location.origin}/${shortId}`);
+    toast.success("Short URL copied to clipboard!", {
+      position: "top-right",
+    });
   };
 
   useEffect(() => {

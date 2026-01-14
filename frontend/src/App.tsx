@@ -16,6 +16,7 @@ import { AdminPage } from "./pages/admin";
 import { AuthProvider, ProtectedRoute } from "./context/AuthContext";
 import { Header } from "./components/header";
 import { AnimatePresence, motion } from "framer-motion";
+import { Toaster } from "sonner";
 
 // ---------------- PAGE WRAPPER ----------------
 const PageWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -124,6 +125,7 @@ const App: React.FC = () => {
       <AuthProvider>
         <Header />
         <AnimatedRoutes />
+        <Toaster position="top-center" richColors />
       </AuthProvider>
     </Router>
   );

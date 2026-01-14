@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { Copy } from "lucide-react";
 
 const CopyButton = ({ label = "Copy", done = "Copied!", onClick }) => {
   const [copied, setCopied] = useState(false);
@@ -7,12 +8,15 @@ const CopyButton = ({ label = "Copy", done = "Copied!", onClick }) => {
   const handleClick = async () => {
     if (onClick) await onClick();
     setCopied(true);
-    setTimeout(() => setCopied(false), 1400);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
     <Wrapper>
-      <button onClick={handleClick}>{copied ? done : label}</button>
+      <button onClick={handleClick} className="flex flex-row gap-2 ">
+        <Copy />
+        {copied ? done : label}
+      </button>
     </Wrapper>
   );
 };
