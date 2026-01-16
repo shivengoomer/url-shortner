@@ -16,6 +16,16 @@ router.post("/", isAuthenticated, async (req, res) => {
     let exists = await URL.findOne({ longUrl: userUrl });
 
     if (!exists) {
+      // Check if user already has 5 URLs
+      const userUrlCount = await URL.countDocuments({
+        createdBy: req.user._id,
+      });
+      if (userUrlCount >= 5) {
+        return res
+          .status(403)
+          .json({ error: "URL limit reached. Maximum 5 URLs allowed." });
+      }
+
       await GenNewShortUrl(userUrl, req.user._id);
       exists = await URL.findOne({ longUrl: userUrl });
     }
@@ -86,7 +96,7 @@ router.get("/:shortId", async (req, res) => {
   const entry = await URL.findOneAndUpdate(
     { shortId: req.params.shortId },
     { $push: { visitHistory: { timestamp: Date.now() } } },
-    { new: true }
+    { new: true },
   );
 
   if (!entry) {
