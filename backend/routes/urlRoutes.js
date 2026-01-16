@@ -20,7 +20,7 @@ router.post("/", isAuthenticated, async (req, res) => {
       const userUrlCount = await URL.countDocuments({
         createdBy: req.user._id,
       });
-      if (userUrlCount >= 5) {
+      if (userUrlCount >= 5 && !isAdmin) {
         return res
           .status(403)
           .json({ error: "URL limit reached. Maximum 5 URLs allowed." });

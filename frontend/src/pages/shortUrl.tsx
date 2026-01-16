@@ -28,8 +28,8 @@ export const ShortUrlPage: React.FC = () => {
         items.sort(
           (a, b) =>
             new Date(b.createdAt || "").getTime() -
-            new Date(a.createdAt || "").getTime()
-        )
+            new Date(a.createdAt || "").getTime(),
+        ),
       );
     } catch {
       setUrls([]);
@@ -51,6 +51,20 @@ export const ShortUrlPage: React.FC = () => {
       if (res?.shortId) return navigate(`/analytics/${res.shortId}`);
 
       fetchUrls();
+    } catch (error: any) {
+      const errorMessage = error?.message || String(error);
+      if (errorMessage.includes("URL limit reached")) {
+        toast.error(
+          "Maximum URL limit reached! You can only create up to 5 URLs.",
+          {
+            position: "top-right",
+          },
+        );
+      } else {
+        toast.error("Failed to create short URL. Please try again.", {
+          position: "top-right",
+        });
+      }
     } finally {
       setLoading(false);
     }
@@ -58,7 +72,7 @@ export const ShortUrlPage: React.FC = () => {
 
   const deleteUrl = async (id: string) => {
     const shouldDelete = window.confirm(
-      "Are you sure you want to delete this URL?"
+      "Are you sure you want to delete this URL?",
     );
     if (!shouldDelete) return;
 
@@ -66,7 +80,9 @@ export const ShortUrlPage: React.FC = () => {
 
     try {
       await apiRequest(`/url/${id}`, { method: "DELETE", auth: true });
-      alert("URL successfully deleted.");
+      toast.success("URL successfully deleted.", {
+        position: "top-right",
+      });
       fetchUrls();
     } finally {
       setActiveDelete(null);
