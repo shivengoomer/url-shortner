@@ -171,7 +171,7 @@ export const ShortUrlPage: React.FC = () => {
                 <div className="flex items-center gap-4 text-sm">
                   <button
                     onClick={() => navigate(`/analytics/${url.shortId}`)}
-                    className="flex items-center gap-1 hover:text-white text-gray-300"
+                    className="flex items-center gap-1 hover:text-white text-gray-300 cursor-pointer"
                   >
                     <BarChart2 className="w-4 h-4" /> Analytics
                   </button>

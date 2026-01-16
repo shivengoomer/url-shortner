@@ -22,3 +22,6 @@
 .animate-dot-run {
   animation: dotRun 5s linear infinite;
 }
+button{
+  cursor: pointer;
+}
