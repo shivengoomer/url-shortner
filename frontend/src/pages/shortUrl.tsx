@@ -141,39 +141,43 @@ export const ShortUrlPage: React.FC = () => {
             return (
               <div
                 key={url._id}
-                className="bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-white/10 transition"
+                className="bg-white/5 border border-white/10 rounded-2xl p-4 flex flex-row items-center justify-between gap-3 flex-wrap hover:bg-white/10 transition"
               >
-                <div className="space-y-1 flex-1">
-                  <p className="text-xs text-gray-400 truncate max-w-3xl">
+                {/* LEFT — URL INFO */}
+                <div className="flex flex-col gap-1.5  min-w-[180px] truncate flex-1">
+                  <p className="text-xs text-gray-400 break-all ">
                     {url.longUrl}
                   </p>
 
-                  <div className="flex items-center gap-2">
+                  <div className=" text-lg flex items-center gap-2">
                     <a
                       href={`/${url.shortId}`}
                       target="_blank"
-                      className="font-medium hover:underline"
+                      className="font-medium hover:underline break-all"
                     >
                       {short}
                     </a>
+
                     <button onClick={() => copyShort(url.shortId)}>
                       <Copy className="h-4 w-4 text-gray-300 hover:text-white" />
                     </button>
                   </div>
 
                   {url.createdAt && (
-                    <p className="text-xs text-gray-500">
+                    <p className="text-[12px] text-gray-500 mt-0.5">
                       {new Date(url.createdAt).toLocaleString()}
                     </p>
                   )}
                 </div>
 
-                <div className="flex items-center gap-4 text-sm">
+                {/* RIGHT — ACTION CLUSTER */}
+                <div className="flex flex-row ml-1 items-center gap-3 text-sm whitespace-nowrap ">
                   <button
                     onClick={() => navigate(`/analytics/${url.shortId}`)}
-                    className="flex items-center gap-1 hover:text-white text-gray-300 cursor-pointer"
+                    className="flex items-center gap-1 hover:text-white text-gray-300"
                   >
-                    <BarChart2 className="w-4 h-4" /> Analytics
+                    <BarChart2 className="w-4 h-4" />
+                    <span className="hidden sm:inline">Analytics</span>
                   </button>
 
                   <div className="flex items-center gap-1 text-gray-300">
@@ -184,7 +188,7 @@ export const ShortUrlPage: React.FC = () => {
                   <button
                     onClick={() => deleteUrl(url._id)}
                     disabled={activeDelete === url._id}
-                    className="text-red-400 hover:text-red-300 transition disabled:opacity-50"
+                    className="text-red-400 hover:text-red-300 disabled:opacity-50"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>

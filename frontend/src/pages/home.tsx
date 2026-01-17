@@ -34,17 +34,17 @@ export const HomePage: React.FC = () => {
             <div>
               <div className="mb-3">
                 <div className="flex items-center gap-3 flex-wrap">
-                  <span className="flex items-center gap-2 text-6xl sm:text-7xl md:text-8xl font-extrabold leading-tight tracking-tight">
+                  <span className="flex items-center gap-2 text-8xl pt-4 sm:text-7xl md:text-8xl font-extrabold leading-tight tracking-tight ">
                     <img
                       src="/clix-img.png"
                       alt="Clix Logo"
-                      className="pt-3 w-10 h-13 sm:w-14 sm:h-14 md:w-20 md:h-20"
+                      className="pt-3 w-15 h-18 sm:w-14 sm:h-14 md:w-20 md:h-20"
                     />
                     Clix
                   </span>
                 </div>
 
-                <h2 className="text-3xl sm:text-3xl md:text-5xl text-gray-400 font-semibold mt-2 leading-snug">
+                <h2 className="text-4xl sm:text-3xl md:text-5xl text-gray-400 font-semibold mt-1 leading-snug">
                   Made{" "}
                   <RotatingText
                     texts={["Simple", "Easier"]}

@@ -74,7 +74,7 @@ export const LoginPage: React.FC = () => {
       setError(
         err instanceof Error
           ? err.message.msg
-          : "Network error. Please try again."
+          : "Network error. Please try again.",
       );
     } finally {
       setLoading(false);
@@ -92,7 +92,7 @@ export const LoginPage: React.FC = () => {
       </div>
 
       <div className="relative z-10 w-full max-w-md">
-        <div className="mt-12 bg-white/[0.03] backdrop-blur-2xl border border-white/10 rounded-2xl p-8 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] hover:border-white/20 transition-all duration-300">
+        <div className="mt-8 bg-white/[0.03] backdrop-blur-2xl border border-white/10 rounded-2xl p-8 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] hover:border-white/20 transition-all duration-300">
           <h1 className="text-2xl font-bold text-center  text-white">
             {isSignup ? "Create Account" : "Welcome Back"}
           </h1>

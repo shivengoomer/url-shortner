@@ -116,7 +116,7 @@ export const AdminPage: React.FC = () => {
         body: JSON.stringify({ role: newRole }),
       });
       setUsers(
-        users.map((u) => (u._id === userId ? { ...u, role: newRole } : u))
+        users.map((u) => (u._id === userId ? { ...u, role: newRole } : u)),
       );
       setEditingRole(null);
       setNewRole("");
@@ -128,13 +128,13 @@ export const AdminPage: React.FC = () => {
   // Analytics
   const totalClicks = urls.reduce(
     (sum, u) => sum + (u.visitHistory?.length || 0),
-    0
+    0,
   );
 
   const clicksTrend = [...urls]
     .sort(
       (a, b) =>
-        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
     )
     .map((u) => ({
       date: new Date(u.createdAt).toLocaleDateString(),
@@ -201,23 +201,35 @@ export const AdminPage: React.FC = () => {
         {/* Charts */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-            <h2 className="mb-2 font-medium">User Roles</h2>
-            <ResponsiveContainer width="100%" height={240}>
+            <h2 className="mb-3 font-medium">User Roles</h2>
+            <ResponsiveContainer width="100%" height={260}>
               <PieChart>
                 <Pie
                   data={Object.entries(roleDistribution).map(
-                    ([name, value]) => ({ name, value })
+                    ([name, value]) => ({
+                      name:
+                        name.charAt(0).toUpperCase() +
+                        name.slice(1).toLowerCase(),
+                      value,
+                    }),
                   )}
-                  outerRadius={80}
+                  innerRadius={60}
+                  outerRadius={90}
+                  paddingAngle={3}
+                  dataKey="value"
                 >
                   {Object.keys(roleDistribution).map((_, i) => (
                     <Cell key={i} fill={COLORS[i % COLORS.length]} />
                   ))}
                 </Pie>
-                <Legend />
+                <Legend verticalAlign="bottom" />
                 <Tooltip />
               </PieChart>
             </ResponsiveContainer>
+            <div className="text-center text-sm opacity-75 mt-1">
+              Total:{" "}
+              {Object.values(roleDistribution).reduce((a, b) => a + b, 0)}
+            </div>
           </div>
 
           <div className="bg-white/5 border border-white/10 rounded-xl p-4">
@@ -369,8 +381,8 @@ export const AdminPage: React.FC = () => {
                 const ownerName = owner
                   ? `${owner.profile.firstName} ${owner.profile.lastName}`
                   : u.owner?.profile
-                  ? `${u.owner.profile.firstName} ${u.owner.profile.lastName}`
-                  : "Unknown";
+                    ? `${u.owner.profile.firstName} ${u.owner.profile.lastName}`
+                    : "Unknown";
 
                 return (
                   <tr key={u._id} className="hover:bg-white/5">
