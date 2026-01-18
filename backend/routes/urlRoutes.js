@@ -6,6 +6,7 @@ const URL = require("../models/urlSchema");
 const router = Router();
 
 /* ---------------- CREATE SHORT URL ---------------- */
+
 router.post("/", isAuthenticated, async (req, res) => {
   try {
     const userUrl = req.body.longUrl;
@@ -20,12 +21,11 @@ router.post("/", isAuthenticated, async (req, res) => {
       const userUrlCount = await URL.countDocuments({
         createdBy: req.user._id,
       });
-      if (userUrlCount >= 5 && !isAdmin) {
+      if (userUrlCount >= 5 && req.user.role != "admin") {
         return res
           .status(403)
           .json({ error: "URL limit reached. Maximum 5 URLs allowed." });
       }
-
       await GenNewShortUrl(userUrl, req.user._id);
       exists = await URL.findOne({ longUrl: userUrl });
     }
@@ -35,7 +35,6 @@ router.post("/", isAuthenticated, async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
-
 /* ---------------- GET URLs (ADMIN / USER) ---------------- */
 router.get("/", isAuthenticated, async (req, res) => {
   try {
