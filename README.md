@@ -33,7 +33,7 @@ A full-stack URL shortening application with user authentication, role-based acc
 - User registration and login
 - Profile management (update personal information)
 - Admin panel for user administration
-- Multiple user roles: user, volunteer, authority, admin
+- User roles: user, admin
 
 ### URL Management
 - Create short URLs (limit: 5 per user, unlimited for admins)
@@ -354,22 +354,14 @@ Authorization: Bearer <your_jwt_token>
 
 ### User Role Hierarchy
 
-1. **user** (Default)
+**user** (Default)
    - Create up to 5 short URLs
    - View own URLs
    - Delete own URLs
    - Update own profile
    - View analytics for own URLs
 
-2. **volunteer**
-   - All user permissions
-   - Extended access for community management
-
-3. **authority**
-   - All volunteer permissions
-   - Higher-level administrative privileges
-
-4. **admin**
+**admin**
    - Unlimited URL creation
    - View all URLs in the system
    - Delete any URL
