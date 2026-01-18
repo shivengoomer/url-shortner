@@ -151,7 +151,7 @@ export const HomePage: React.FC = () => {
             <div className="space-y-14 sm:space-y-20 pt-10 sm:pt-16">
               {/* Step 1 */}
               <Step
-                img="/screenshots/shorten.png"
+                img="screenshots/shorten-github.png"
                 title="1. Shorten"
                 text="Paste a long URL, click shorten, and instantly get a clean, trackable link!"
                 reverse={false}
@@ -159,7 +159,7 @@ export const HomePage: React.FC = () => {
 
               {/* Step 2 */}
               <Step
-                img="/screenshots/analytics.png"
+                img="/screenshots/analytics-github.png"
                 title="2. Manage URLs"
                 text="View your shortened links, copy them, and track clicks in one place."
                 reverse={true}
@@ -167,7 +167,7 @@ export const HomePage: React.FC = () => {
 
               {/* Step 3 */}
               <Step
-                img="/screenshots/dashboard.png"
+                img="/screenshots/dashboard-github.png"
                 title="3. Dashboard + History"
                 text="Dive into analytics — visit history, click counts, time info, and more."
                 reverse={false}
@@ -201,7 +201,10 @@ export const HomePage: React.FC = () => {
             <a href="#how" className="hover:text-cyan-300 transition">
               How
             </a>
-            <a href="#" className="hover:text-cyan-300 transition">
+            <a
+              href="https://github.com/shivengoomer"
+              className="hover:text-cyan-300 transition"
+            >
               Contact
             </a>
           </div>
