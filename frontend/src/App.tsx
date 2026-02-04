@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { HomePage } from "./pages/home";
 import { LoginPage } from "./pages/auth";
 import {
@@ -17,6 +17,8 @@ import { AuthProvider, ProtectedRoute } from "./context/AuthContext";
 import { Header } from "./components/header";
 import { AnimatePresence, motion } from "framer-motion";
 import { Toaster } from "sonner";
+import { useBackendHealth } from "./hooks/useBackendHealth";
+import { BackendOfflinePopup } from "./components/BackendOfflinePopup";
 
 // ---------------- PAGE WRAPPER ----------------
 const PageWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -120,12 +122,35 @@ const AnimatedRoutes: React.FC = () => {
 
 // ---------------- APP COMPONENT ----------------
 const App: React.FC = () => {
+  const { isBackendOnline, hasChecked } = useBackendHealth();
+  const [showOfflinePopup, setShowOfflinePopup] = useState(false);
+  const [hasSeenPopup, setHasSeenPopup] = useState(false);
+
+  useEffect(() => {
+    // Show popup only once when backend is detected as offline
+    if (hasChecked && isBackendOnline === false && !hasSeenPopup) {
+      setShowOfflinePopup(true);
+    }
+  }, [hasChecked, isBackendOnline, hasSeenPopup]);
+
+  const handleDismissPopup = () => {
+    setShowOfflinePopup(false);
+    setHasSeenPopup(true);
+    // Store in sessionStorage so popup doesn't show again during this session
+    sessionStorage.setItem("backend_offline_acknowledged", "true");
+  };
+
   return (
     <Router>
       <AuthProvider>
         <Header />
         <AnimatedRoutes />
         <Toaster position="top-center" richColors />
+
+        {/* Backend Offline Popup */}
+        {showOfflinePopup && (
+          <BackendOfflinePopup onDismiss={handleDismissPopup} />
+        )}
       </AuthProvider>
     </Router>
   );
