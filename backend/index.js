@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 app.use(
   cors({
     credentials: true,
-  })
+  }),
 );
 app.use(express.json());
 app.use(cookieParser());
@@ -32,6 +32,16 @@ const connectDB = async () => {
 };
 
 connectDB();
+
+// Health check endpoint
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    timestamp: new Date().toISOString(),
+    service: "url-shortener-backend",
+  });
+});
+
 app.use("/url", urlRoute);
 app.use("/user", userRoutes);
 app.get("/", (req, res) => {
@@ -39,5 +49,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () =>
-  console.log("> Server is up and running on port : " + port)
+  console.log("> Server is up and running on port : " + port),
 );
