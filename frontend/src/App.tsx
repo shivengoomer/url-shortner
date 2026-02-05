@@ -125,7 +125,7 @@ const App: React.FC = () => {
       <AuthProvider>
         <Header />
         <AnimatedRoutes />
-        <Toaster position="top-center" richColors />
+        <Toaster position="top-right" richColors className="scale-[1.05]" />
       </AuthProvider>
     </Router>
   );

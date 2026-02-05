@@ -22,6 +22,7 @@ import { apiRequest } from "../api";
 import CopyButton from "@/components/copyButton";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { confirmDelete } from "../utils/confirmDelete";
 
 interface AnalyticsData {
   reqUrl: {
@@ -67,31 +68,28 @@ export const AnalyticsDetailPage: React.FC = () => {
     });
   };
 
-  const deleteUrl = async () => {
+  const deleteUrl = () => {
     if (!data) return;
 
-    const shouldDelete = window.confirm(
-      "Are you sure you want to delete this URL? This action cannot be undone.",
-    );
-    if (!shouldDelete) return;
-
-    setDeleting(true);
-    try {
-      await apiRequest(`/url/${data.reqUrl.shortId}`, {
-        method: "DELETE",
-        auth: true,
-      });
-      toast.success("URL deleted successfully", {
-        position: "top-right",
-      });
-      navigate("/short");
-    } catch (error) {
-      toast.error("Failed to delete URL", {
-        position: "top-right",
-      });
-    } finally {
-      setDeleting(false);
-    }
+    confirmDelete(async () => {
+      setDeleting(true);
+      try {
+        await apiRequest(`/url/${data.reqUrl.shortId}`, {
+          method: "DELETE",
+          auth: true,
+        });
+        toast.success("URL deleted successfully", {
+          position: "top-right",
+        });
+        navigate("/short");
+      } catch (error) {
+        toast.error("Failed to delete URL", {
+          position: "top-right",
+        });
+      } finally {
+        setDeleting(false);
+      }
+    });
   };
 
   /* -------- CHART DATA (CLICKS PER DAY) -------- */

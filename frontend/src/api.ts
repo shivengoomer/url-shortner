@@ -1,7 +1,7 @@
-const BASE_URL = import.meta.env.VITE_BACKEND_URL; 
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 interface ApiOptions extends RequestInit {
-  auth?: boolean; 
+  auth?: boolean;
 }
 export const apiRequest = async (
   endpoint: string,
@@ -13,16 +13,26 @@ export const apiRequest = async (
     ...(options.auth && token
       ? { Authorization: `Bearer ${token}` }
       : {}),
+    ...options.headers, // Merge any additional headers from options
   };
 
   const res = await fetch(`${BASE_URL}${endpoint}`, {
     ...options,
-    headers,
+    headers, // This now properly overrides with merged headers
   });
 
   if (!res.ok) {
-    const error = await res.text();
-    throw new Error(error || "API Error");
+    const errorText = await res.text();
+    let errorMessage = "API Error";
+
+    try {
+      const errorJson = JSON.parse(errorText);
+      errorMessage = errorJson.msg || errorJson.error || errorJson.message || errorText;
+    } catch {
+      errorMessage = errorText || errorMessage;
+    }
+
+    throw new Error(errorMessage);
   }
 
   return res.json();

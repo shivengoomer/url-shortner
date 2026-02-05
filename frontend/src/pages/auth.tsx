@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Aurora from "../components/background";
 import { apiRequest } from "../api";
 import { useAuth } from "../context/AuthContext";
+import { toast } from "sonner";
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -31,6 +32,8 @@ export const LoginPage: React.FC = () => {
     setLoading(true);
 
     try {
+      let data;
+
       if (isSignup) {
         const { name, email, phone, password, confirmPassword } = form;
 
@@ -46,7 +49,7 @@ export const LoginPage: React.FC = () => {
           return;
         }
 
-        const data = await apiRequest("/user/new", {
+        data = await apiRequest("/user/new", {
           method: "POST",
           body: JSON.stringify({ name, email, phone, password }),
         });
@@ -61,7 +64,7 @@ export const LoginPage: React.FC = () => {
           return;
         }
 
-        const data = await apiRequest("/user/login", {
+        data = await apiRequest("/user/login", {
           method: "POST",
           body: JSON.stringify({ email, password }),
         });
@@ -69,13 +72,18 @@ export const LoginPage: React.FC = () => {
         login(data.token, data.user);
       }
 
+      const userName =
+        data.user?.profile?.firstName || data.user?.name || "there";
+      toast.message(`Welcome back, ${userName}!`, {});
       navigate("/");
     } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message.msg
-          : "Network error. Please try again.",
-      );
+      const errorMessage =
+        err instanceof Error ? err.message : "Network error. Please try again.";
+
+      setError(errorMessage);
+      toast.error(errorMessage, {
+        position: "top-right",
+      });
     } finally {
       setLoading(false);
     }
