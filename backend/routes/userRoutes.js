@@ -3,17 +3,29 @@ const router = express.Router();
 const dotenv = require("dotenv");
 const { genToken, check, isAdmin } = require("../controllers/authHelper");
 const User = require("../models/userSchema");
+
 dotenv.config();
 
+/* 
+   REGISTER
+ */
 router.post("/new", async (req, res) => {
   const { name, email, phone, password, role } = req.body;
 
-  if (!name || !email || !phone || !password)
-    return res.status(400).json({ msg: "Please provide all data required" });
+  if (!name || !email || !phone || !password) {
+    return res.status(400).json({
+      msg: "All fields (name, email, phone, password) are required",
+    });
+  }
 
   try {
-    let us = await User.findOne({ email });
-    if (us) return res.status(400).json({ msg: "User exists" });
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({
+        msg: "An account with this email already exists",
+      });
+    }
+
     const user = new User({
       email,
       phone,
@@ -24,8 +36,9 @@ router.post("/new", async (req, res) => {
         lastName: name.split(" ").slice(1).join(" ") || "",
       },
     });
+
     await user.save();
-    console.log("new user created");
+
     const token = genToken(user.id);
     res.cookie("token", token, {
       httpOnly: true,
@@ -33,7 +46,8 @@ router.post("/new", async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.json({
+    res.status(201).json({
+      msg: "User registered successfully",
       token,
       user: {
         id: user.id,
@@ -42,49 +56,72 @@ router.post("/new", async (req, res) => {
         role: user.role,
       },
     });
-    console.log("cookie created");
   } catch (err) {
-    console.log(err);
-    res.send("Server error");
+    console.error(err);
+    res.status(500).json({ msg: "Internal server error" });
   }
 });
-// login
+
+/* 
+   LOGIN
+*/
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  if (!email || !password)
-    return res.status(400).json({ msg: "Please provide all data" });
 
-  const user = await User.findOne({ email });
-  if (!user) return res.status(400).json({ msg: "user not found" });
+  if (!email || !password) {
+    return res.status(400).json({
+      msg: "Email and password are required",
+    });
+  }
 
-  const isMatch = await user.comparePassword(password);
-  if (!isMatch) return res.status(400).json({ msg: "wrong password" });
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({
+        msg: "No account found with this email",
+      });
+    }
 
-  const token = genToken(user.id);
-  res.cookie("token", token, {
-    httpOnly: true,
-    maxAge: 7 * 24 * 60 * 60 * 1000,
-  });
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+      return res.status(401).json({
+        msg: "Incorrect password. Please try again",
+      });
+    }
 
-  res.json({
-    token,
-    user: {
-      id: user.id,
-      name: `${user.profile.firstName} ${user.profile.lastName}`,
-      email: user.email,
-      role: user.role,
-    },
-  });
-  console.log("logged in");
+    const token = genToken(user.id);
+    res.cookie("token", token, {
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.json({
+      msg: "Login successful",
+      token,
+      user: {
+        id: user.id,
+        name: `${user.profile.firstName} ${user.profile.lastName}`,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Internal server error" });
+  }
 });
 
-// logut - clearing cookie
+/* 
+   LOGOUT
+*/
 router.post("/logout", (req, res) => {
   res.clearCookie("token");
-  res.json({ msg: "Logging out" });
+  res.json({ msg: "Logged out successfully" });
 });
 
-// Get current user
+/* 
+   CURRENT USER
+ */
 router.get("/me", check, async (req, res) => {
   try {
     res.json({
@@ -98,28 +135,29 @@ router.get("/me", check, async (req, res) => {
       },
     });
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ msg: "Server error" });
+    console.error(err);
+    res.status(500).json({ msg: "Internal server error" });
   }
 });
 
-// update profile
+/* 
+   UPDATE PROFILE
+*/
 router.patch("/me", check, async (req, res) => {
   const { profile, phone } = req.body;
+
   if (profile) {
-    if (profile.firstName) req.user.profile.firstName = profile.firstName;
-    if (profile.lastName) req.user.profile.lastName = profile.lastName;
-    if (profile.address) req.user.profile.address = profile.address;
-    if (profile.state) req.user.profile.state = profile.state;
-    if (profile.zipCode) req.user.profile.zipCode = profile.zipCode;
+    Object.assign(req.user.profile, profile);
   }
 
-  if (phone) req.user.phone = phone;
+  if (phone) {
+    req.user.phone = phone;
+  }
 
   await req.user.save();
 
   res.json({
-    msg: "Profile updated",
+    msg: "Profile updated successfully",
     user: {
       id: req.user._id,
       name: `${req.user.profile.firstName} ${req.user.profile.lastName}`,
@@ -131,62 +169,73 @@ router.patch("/me", check, async (req, res) => {
   });
 });
 
-// Get all users (admin only)
+/* 
+   ADMIN: GET ALL USERS*/
 router.get("/users", isAdmin, async (req, res) => {
   try {
     const users = await User.find().select("-password").sort({ createdAt: -1 });
+
     res.json({ users });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ msg: "Server error" });
+    res.status(500).json({ msg: "Internal server error" });
   }
 });
 
-// Update user role (admin only)
+/* 
+   ADMIN: UPDATE USER ROLE */
 router.patch("/users/:id/role", isAdmin, async (req, res) => {
+  const { role } = req.body;
+
+  if (!["user", "admin"].includes(role)) {
+    return res.status(400).json({
+      msg: "Invalid role provided",
+    });
+  }
+
   try {
-    const { role } = req.body;
-
-    if (!["user", "volunteer", "authority", "admin"].includes(role)) {
-      return res.status(400).json({ msg: "Invalid role" });
-    }
-
     const user = await User.findById(req.params.id);
     if (!user) {
-      return res.status(404).json({ msg: "User not found" });
+      return res.status(404).json({
+        msg: "User not found",
+      });
     }
 
     user.role = role;
     await user.save();
 
     res.json({
-      msg: "User role updated",
+      msg: "User role updated successfully",
       user: { ...user.toObject(), password: undefined },
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ msg: "Server error" });
+    res.status(500).json({ msg: "Internal server error" });
   }
 });
 
-// Delete user (admin only)
+/*    ADMIN: DELETE USER*/
 router.delete("/users/:id", isAdmin, async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
+
     if (!user) {
-      return res.status(404).json({ msg: "User not found" });
+      return res.status(404).json({
+        msg: "User not found",
+      });
     }
 
-    // Prevent admin from deleting themselves
     if (user._id.toString() === req.user._id.toString()) {
-      return res.status(400).json({ msg: "Cannot delete your own account" });
+      return res.status(400).json({
+        msg: "You cannot delete your own account",
+      });
     }
 
     await User.findByIdAndDelete(req.params.id);
     res.json({ msg: "User deleted successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ msg: "Server error" });
+    res.status(500).json({ msg: "Internal server error" });
   }
 });
 

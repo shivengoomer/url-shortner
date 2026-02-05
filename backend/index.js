@@ -5,16 +5,30 @@ const cookieParser = require("cookie-parser");
 
 app.use(
   cors({
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:5173",
+      "https://www.clix.works",
+    ],
     credentials: true,
-  })
+  }),
 );
 app.use(express.json());
 app.use(cookieParser());
+
+// Error handling middleware for JSON parse errors
+app.use((err, req, res, next) => {
+  if (err instanceof SyntaxError && err.status === 400 && "body" in err) {
+    console.error("Bad JSON:", err.message);
+    return res.status(400).json({ error: "Invalid JSON format" });
+  }
+  next();
+});
+
 require("dotenv").config();
 const port = process.env.PORT || 5000;
 const urlRoute = require("./routes/urlRoutes");
 const userRoutes = require("./routes/userRoutes");
-
 const mongoose = require("mongoose");
 const { isAuthenticated } = require("./controllers/authHelper");
 
@@ -34,10 +48,10 @@ const connectDB = async () => {
 connectDB();
 app.use("/url", urlRoute);
 app.use("/user", userRoutes);
-app.get("/", (req, res) => {
+app.get("/", cors({ origin: "*" }), (req, res) => {
   res.json({ message: "hello from simple server made by SG :)" });
 });
 
 app.listen(port, () =>
-  console.log("> Server is up and running on port : " + port)
+  console.log("> Server is up and running on port : " + port),
 );

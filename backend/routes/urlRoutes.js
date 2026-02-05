@@ -9,32 +9,79 @@ const router = Router();
 
 router.post("/", isAuthenticated, async (req, res) => {
   try {
-    const userUrl = req.body.longUrl;
-    if (!userUrl) {
+    const { longUrl, customShortId } = req.body;
+
+    if (!longUrl) {
       return res.status(400).json({ error: "Provide URL" });
     }
 
-    let exists = await URL.findOne({ longUrl: userUrl });
+    /* ---------- If customShortId provided ---------- */
+    if (customShortId) {
+      // length safety (backend validation)
+      if (customShortId.length < 5 || customShortId.length > 7) {
+        return res
+          .status(400)
+          .json({ error: "Short ID must be 5–7 characters" });
+      }
 
-    if (!exists) {
-      // Check if user already has 5 URLs
+      // 🔥 Check if shortId already exists (any user)
+      const shortIdExists = await URL.findOne({ shortId: customShortId });
+
+      if (shortIdExists) {
+        return res.status(409).json({
+          error: "Short ID already exists. Use a different short ID.",
+        });
+      }
+
+      // URL limit check (non-admin)
       const userUrlCount = await URL.countDocuments({
         createdBy: req.user._id,
       });
-      if (userUrlCount >= 5 && req.user.role != "admin") {
-        return res
-          .status(403)
-          .json({ error: "URL limit reached. Maximum 5 URLs allowed." });
+
+      if (userUrlCount >= 5 && req.user.role !== "admin") {
+        return res.status(403).json({
+          error: "URL limit reached. Maximum 5 URLs allowed.",
+        });
       }
-      await GenNewShortUrl(userUrl, req.user._id);
-      exists = await URL.findOne({ longUrl: userUrl });
+
+      const created = await URL.create({
+        shortId: customShortId,
+        longUrl,
+        createdBy: req.user._id,
+        visitHistory: [],
+      });
+
+      return res.json(created);
+    }
+
+    /* ---------- Auto-generated shortId ---------- */
+    let exists = await URL.findOne({
+      longUrl,
+      createdBy: req.user._id,
+    });
+
+    if (!exists) {
+      const userUrlCount = await URL.countDocuments({
+        createdBy: req.user._id,
+      });
+
+      if (userUrlCount >= 5 && req.user.role !== "admin") {
+        return res.status(403).json({
+          error: "URL limit reached. Maximum 5 URLs allowed.",
+        });
+      }
+
+      await GenNewShortUrl(longUrl, req.user._id);
+      exists = await URL.findOne({ longUrl, createdBy: req.user._id });
     }
 
     res.json(exists);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Server error" });
   }
 });
+
 /* ---------------- GET URLs (ADMIN / USER) ---------------- */
 router.get("/", isAuthenticated, async (req, res) => {
   try {
