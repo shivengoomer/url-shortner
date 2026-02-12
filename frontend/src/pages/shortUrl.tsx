@@ -23,6 +23,8 @@ export const ShortUrlPage: React.FC = () => {
   const [longUrl, setLongUrl] = useState("");
   const [showCustomId, setShowCustomId] = useState(false);
   const [customShortId, setCustomShortId] = useState("");
+  const [setIsFocused, isFocused] = useState("");
+
   const [shortIdError, setShortIdError] = useState("");
   const [urls, setUrls] = useState<Url[]>([]);
   const [loading, setLoading] = useState(false);
@@ -144,9 +146,9 @@ export const ShortUrlPage: React.FC = () => {
               {!showCustomId && (
                 <button
                   onClick={() => setShowCustomId(true)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full
-                     text-xs font-medium bg-white/10 text-gray-200
-                     border border-white/20 hover:bg-white/20 hover:text-white transition"
+                  className="inline-flex items-center gap-1.5 px-5 py-3 rounded-full
+          text-xs font-semibold bg-white/10 text-gray-200
+          border border-white/20 hover:bg-white/20 hover:text-white transition"
                 >
                   <Link2 className="w-3.5 h-3.5" />
                   Custom short link
@@ -154,21 +156,33 @@ export const ShortUrlPage: React.FC = () => {
               )}
             </div>
 
-            <input
-              value={longUrl}
-              onChange={(e) => setLongUrl(e.target.value)}
-              placeholder="https://example.com"
-              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10
-                 focus:ring-2 focus:ring-white/30 outline-none"
-            />
+            {/* Input with glow */}
+            <div className="relative">
+              <input
+                type="url"
+                value={longUrl}
+                onChange={(e) => setLongUrl(e.target.value)}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                placeholder="https://example.com"
+                className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10
+        text-white placeholder:text-gray-500
+        focus:ring-2 focus:ring-white/30 focus:border-white/20 focus:bg-black/60
+        outline-none transition-all duration-300"
+              />
+
+              {/* glow effect */}
+              <div
+                className={`absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/10 to-purple-500/10
+        -z-10 blur-xl transition-opacity duration-300
+        ${isFocused ? "opacity-100" : "opacity-0"}`}
+              />
+            </div>
           </div>
 
           {/* Custom Short ID */}
           {showCustomId && (
-            <div
-              className="space-y-3 bg-black/40 border border-white/15 rounded-2xl p-5
-                    animate-in fade-in slide-in-from-top-2 duration-200"
-            >
+            <div className="space-y-4 bg-black/40 border border-white/15 rounded-2xl p-5 animate-in fade-in slide-in-from-top-2 duration-200">
               <div className="flex items-center justify-between">
                 <label className="text-base font-medium text-gray-200">
                   Custom short ID
@@ -187,33 +201,76 @@ export const ShortUrlPage: React.FC = () => {
               </div>
 
               {/* Input */}
-              <div
-                className={`flex items-center rounded-xl overflow-hidden border transition
+              <div className="relative group">
+                <div
+                  className={`flex items-baseline gap-1 px-4 py-3 rounded-xl border transition-all duration-200
           ${
             shortIdError
-              ? "border-red-500/60 focus-within:ring-2 focus-within:ring-red-500/30"
-              : "border-white/10 focus-within:ring-2 focus-within:ring-white/30"
-          }
-        `}
-              >
-                <span className="px-3 py-3 text-sm text-gray-400 bg-black/50 border-r border-white/10">
-                  {window.location.hostname}/
-                </span>
+              ? "bg-red-500/10 border-red-500/50"
+              : customShortId.length >= 5 && customShortId.length <= 7
+                ? "bg-green-500/10 border-green-500/50"
+                : "bg-black/50 border-white/10 group-focus-within:border-white/30"
+          }`}
+                >
+                  <span className="text-sm text-gray-500 whitespace-nowrap">
+                    {typeof window !== "undefined"
+                      ? window.location.hostname
+                      : "domain"}
+                    /
+                  </span>
 
-                <input
-                  value={customShortId}
-                  onChange={(e) => {
-                    const value = e.target.value.replace(/[^a-zA-Z0-9_-]/g, "");
-                    setCustomShortId(value);
-                    setShortIdError("");
+                  <input
+                    value={customShortId}
+                    maxLength={7}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(
+                        /[^a-zA-Z0-9_-]/g,
+                        "",
+                      );
+                      setCustomShortId(value);
 
-                    if (value && (value.length < 5 || value.length > 7)) {
-                      setShortIdError("Short ID must be 5–7 characters");
-                    }
-                  }}
-                  placeholder="my-link"
-                  className="flex-1 px-4 py-3 bg-transparent outline-none text-white tracking-wide"
-                />
+                      if (!value) {
+                        setShortIdError("");
+                        return;
+                      }
+
+                      if (value.length < 5 || value.length > 7) {
+                        setShortIdError("Short ID must be 5–7 characters");
+                      } else {
+                        setShortIdError("");
+                      }
+                    }}
+                    placeholder="my-link"
+                    className="flex-1 bg-transparent outline-none text-white tracking-wide placeholder:text-gray-600"
+                  />
+
+                  <span
+                    className={`text-xs font-mono ${
+                      customShortId.length === 0
+                        ? "text-gray-600"
+                        : customShortId.length < 5 || customShortId.length > 7
+                          ? "text-red-400"
+                          : "text-green-400"
+                    }`}
+                  >
+                    {customShortId.length}/7
+                  </span>
+                </div>
+
+                {/* progress bar */}
+                {customShortId && (
+                  <div
+                    className={`absolute -bottom-0.5 left-4 h-0.5 rounded-full transition-all duration-300
+            ${
+              customShortId.length < 5
+                ? "bg-blue-400"
+                : customShortId.length > 7
+                  ? "bg-red-400"
+                  : "bg-green-400"
+            }`}
+                    style={{ width: `${(customShortId.length / 7) * 100}%` }}
+                  />
+                )}
               </div>
 
               {/* Helper row */}
@@ -223,31 +280,45 @@ export const ShortUrlPage: React.FC = () => {
                 </p>
 
                 <span
-                  className={
+                  className={`font-medium ${
                     customShortId.length === 0
                       ? "text-gray-500"
-                      : customShortId.length < 5 || customShortId.length > 7
+                      : customShortId.length < 5
                         ? "text-red-400"
-                        : "text-green-400"
-                  }
+                        : customShortId.length > 7
+                          ? "text-red-400"
+                          : "text-green-400"
+                  }`}
                 >
-                  {customShortId.length}/7
+                  {customShortId.length === 0
+                    ? "Optional"
+                    : customShortId.length < 5
+                      ? "Too short"
+                      : customShortId.length > 7
+                        ? "Too long"
+                        : "Perfect ✓"}
                 </span>
               </div>
 
               {shortIdError && (
-                <p className="text-xs text-red-400 flex items-center gap-1">
+                <div className="flex items-center gap-2 text-sm text-red-400 bg-red-500/10 px-3 py-2 rounded-lg">
                   ⚠️ {shortIdError}
-                </p>
+                </div>
               )}
             </div>
           )}
 
+          {/* Submit Button */}
           <button
             onClick={createShortUrl}
-            disabled={loading || !!shortIdError}
-            className="w-full py-3 rounded-xl bg-white text-black font-semibold
-               hover:opacity-90 transition disabled:opacity-50"
+            disabled={
+              loading ||
+              (!!customShortId &&
+                (customShortId.length < 5 || customShortId.length > 7))
+            }
+            className="w-full px-4 py-3 rounded-xl font-semibold bg-white text-black
+    hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed
+    transition-all duration-300"
           >
             {loading ? "Creating..." : "Create Short URL"}
           </button>

@@ -1,12 +1,13 @@
 name: Deploy Backend (URL SHORTNER)
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "backend/**" # Only run if backend folder changes
-      - "!frontend/**" # Ignore frontend changes
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - "backend/**" # Only run if backend folder changes
+  #     - "!frontend/**" # Ignore frontend changes
 
 jobs:
   build-and-deploy:
