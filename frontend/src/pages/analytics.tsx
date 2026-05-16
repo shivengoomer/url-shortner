@@ -7,8 +7,14 @@ import {
   MousePointerClick,
   ExternalLink,
   Copy,
+  QrCode,
+  BarChart,
+  Calendar,
+  ChevronRight
 } from "lucide-react";
 import { toast } from "sonner";
+import QRModal from "../components/QRModal";
+import AnalyticsDashboard from "../components/AnalyticsDashboard";
 
 interface Url {
   _id: string;
@@ -22,6 +28,9 @@ export const AnalyticsListPage: React.FC = () => {
   const [urls, setUrls] = useState<Url[]>([]);
   const [loading, setLoading] = useState(true);
   const origin = typeof window !== "undefined" ? window.location.hostname : "";
+  const [qrOpen, setQrOpen] = useState(false);
+  const [analyticsOpen, setAnalyticsOpen] = useState(false);
+  const [selectedShort, setSelectedShort] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUrls = async () => {
@@ -46,174 +55,211 @@ export const AnalyticsListPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-neutral-950 to-black text-white px-4 sm:px-6 py-20 sm:py-28">
-      <div className="max-w-7xl mx-auto space-y-10 sm:space-y-12">
+    <div className="min-h-screen bg-[#09090b] text-zinc-100 font-sans selection:bg-zinc-800 selection:text-white px-4 sm:px-6 pt-32 pb-20 sm:pt-40 sm:pb-32 relative">
+      {/* Subtle grid pattern background */}
+      <div 
+        className="fixed inset-0 opacity-[0.03] pointer-events-none z-0" 
+        style={{ backgroundImage: 'linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(to right, #ffffff 1px, transparent 1px)', backgroundSize: '48px 48px' }}
+      />
+
+      <div className="max-w-7xl mx-auto space-y-10 sm:space-y-12 relative z-10">
         {/* HEADER */}
-        <header className="text-center space-y-3">
-          <div className="flex flex-row justify-center-safe gap-3 ">
-            <div className="inline-flex p-3 bg-gradient-to-br from-white/20 to-white/5 rounded-2xl border border-white/30 mb-1 ">
-              <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6" />
+        <header className="text-center space-y-4 border-b border-zinc-800/50 pb-10">
+          <div className="flex flex-row justify-center items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white text-black shadow-lg">
+              <TrendingUp className="w-6 h-6" strokeWidth={2.5} />
             </div>
-            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+            <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-white">
               Analytics Dashboard
             </h1>
           </div>
 
-          <p className="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto">
-            Track and monitor performance metrics for all your shortened links
+          <p className="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto">
+            Track and monitor performance metrics for all your shortened links across your workspace.
           </p>
         </header>
 
         {loading ? (
-          <div className="text-center py-20">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-white/20 border-t-white"></div>
-            <p className="mt-4 text-gray-400">Loading analytics...</p>
+          <div className="text-center py-24">
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-2 border-zinc-800 border-t-white"></div>
+            <p className="mt-4 text-sm text-zinc-500">Loading workspace analytics...</p>
           </div>
         ) : urls.length === 0 ? (
-          <div className="text-center py-20 bg-white/5 rounded-3xl border border-white/10">
-            <div className="p-4 bg-white/10 rounded-2xl w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-              <Link2 className="w-8 h-8 text-gray-400" />
+          <div className="text-center py-24 bg-[#040405] rounded-2xl border border-zinc-800/50">
+            <div className="flex h-16 w-16 mx-auto mb-6 items-center justify-center rounded-2xl bg-zinc-900 border border-zinc-800">
+              <Link2 className="w-8 h-8 text-zinc-500" />
             </div>
-            <p className="text-gray-400 text-lg">No links created yet</p>
-            <p className="text-gray-500 text-sm mt-2">
-              Start by creating your first short link
+            <h3 className="text-xl font-semibold text-white">No active links</h3>
+            <p className="text-zinc-500 text-sm mt-2 max-w-sm mx-auto mb-6">
+              You haven't created any short links in this workspace yet. Create one to start tracking analytics.
             </p>
+            <Link to="/shorten" className="inline-flex items-center justify-center rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-black transition-all hover:bg-zinc-200">
+              Create New Link
+            </Link>
           </div>
         ) : (
           <>
             {/* STATS SUMMARY */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-              <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-xl">
-                <p className="text-gray-400 text-sm font-medium mb-1">
-                  Total Links
-                </p>
-                <p className="text-3xl sm:text-4xl font-bold">{urls.length}</p>
+              <div className="bg-[#040405] border border-zinc-800/60 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="h-2 w-2 rounded-full bg-zinc-400" />
+                  <p className="text-zinc-400 text-sm font-medium">Total Active Links</p>
+                </div>
+                <p className="text-4xl sm:text-5xl font-semibold text-white tracking-tight">{urls.length}</p>
               </div>
-              <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-xl">
-                <p className="text-gray-400 text-sm font-medium mb-1">
-                  Total Clicks
-                </p>
-                <p className="text-3xl sm:text-4xl font-bold">
-                  {urls.reduce((sum, url) => sum + url.visitHistory.length, 0)}
+              
+              <div className="bg-[#040405] border border-zinc-800/60 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="h-2 w-2 rounded-full bg-white" />
+                  <p className="text-zinc-400 text-sm font-medium">Total Engagement (Clicks)</p>
+                </div>
+                <p className="text-4xl sm:text-5xl font-semibold text-white tracking-tight">
+                  {urls.reduce((sum, url) => sum + url.visitHistory.length, 0).toLocaleString()}
                 </p>
               </div>
-              <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-xl">
-                <p className="text-gray-400 text-sm font-medium mb-1">
-                  Avg Clicks/Link
-                </p>
-                <p className="text-3xl sm:text-4xl font-bold">
+
+              <div className="bg-[#040405] border border-zinc-800/60 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="h-2 w-2 rounded-full bg-zinc-600" />
+                  <p className="text-zinc-400 text-sm font-medium">Average Conversion Rate</p>
+                </div>
+                <p className="text-4xl sm:text-5xl font-semibold text-white tracking-tight">
                   {Math.round(
                     urls.reduce(
                       (sum, url) => sum + url.visitHistory.length,
                       0,
                     ) / urls.length,
-                  )}
+                  )} <span className="text-xl text-zinc-600 font-normal">/ link</span>
                 </p>
               </div>
             </div>
 
-            {/* LINKS GRID */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
-              {urls.map((url) => (
-                <div
-                  key={url._id}
-                  className="group relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-2xl p-6 hover:from-white/15 hover:to-white/10 hover:border-white/30 transition-all duration-300 hover:shadow-2xl hover:shadow-white/10"
-                >
-                  {/* Gradient overlay on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-transparent to-white/5 opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity duration-300" />
+            {/* DATA TABLE */}
+            <div className="bg-[#040405] border border-zinc-800/60 rounded-2xl shadow-sm overflow-hidden mt-8">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-zinc-800/80 bg-zinc-900/30">
+                      <th className="py-4 px-6 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Short Link</th>
+                      <th className="py-4 px-6 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Original URL</th>
+                      <th className="py-4 px-6 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Clicks</th>
+                      <th className="py-4 px-6 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Created</th>
+                      <th className="py-4 px-6 text-xs font-semibold text-zinc-400 uppercase tracking-wider text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-zinc-800/50">
+                    {urls.map((url) => (
+                      <tr key={url._id} className="group hover:bg-zinc-900/20 transition-colors">
+                        {/* Short Link */}
+                        <td className="py-4 px-6 whitespace-nowrap">
+                          <Link
+                            to={`/analytics/${url.shortId}`}
+                            className="inline-flex items-center gap-2 font-medium text-white hover:text-zinc-300 transition-colors"
+                          >
+                            <span className="text-zinc-500">{origin}/</span>
+                            <span>{url.shortId}</span>
+                          </Link>
+                        </td>
 
-                  <div className="relative space-y-4">
-                    {/* Original URL */}
-                    <div>
-                      <p className="text-xs text-gray-500 font-medium mb-1.5 uppercase tracking-wide">
-                        Original URL
-                      </p>
-                      <a
-                        href={url.longUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-sm text-gray-300 hover:text-white transition-colors truncate group/link"
-                      >
-                        <ExternalLink className="w-3.5 h-3.5 flex-shrink-0 opacity-60 group-hover/link:opacity-100" />
-                        <span className="truncate">{url.longUrl}</span>
-                      </a>
-                    </div>
+                        {/* Original URL */}
+                        <td className="py-4 px-6 max-w-[200px] lg:max-w-[300px]">
+                          <a
+                            href={url.longUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-zinc-200 transition-colors truncate w-full"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5 flex-shrink-0" />
+                            <span className="truncate">{url.longUrl}</span>
+                          </a>
+                        </td>
 
-                    {/* Short URL */}
-                    <div>
-                      <p className="text-xs text-gray-500 font-medium mb-1.5 uppercase tracking-wide">
-                        Short Link
-                      </p>
-                      <div className="flex items-center justify-between gap-3">
-                        <Link
-                          to={`/analytics/${url.shortId}`}
-                          className="flex items-center gap-2 font-semibold text-white hover:text-gray-200 transition-colors truncate group/short"
-                        >
-                          <Link2 className="w-4 h-4 flex-shrink-0 text-gray-400 group-hover/short:text-white" />
-                          <span className="truncate text-base">
-                            {origin}/{url.shortId}
-                          </span>
-                        </Link>
-                        <button
-                          onClick={() => {
-                            navigator.clipboard.writeText(
-                              `${window.location.origin}/${url.shortId}`,
-                            );
-                            toast.success("Short URL copied to clipboard!", {
-                              position: "top-right",
-                            });
-                          }}
-                          className="p-2 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 hover:border-white/20 transition-all group/copy"
-                          title="Copy short URL"
-                        >
-                          <Copy className="w-4 h-4 text-gray-400 group-hover/copy:text-white" />
-                        </button>
-                      </div>
-                    </div>
+                        {/* Clicks */}
+                        <td className="py-4 px-6 whitespace-nowrap">
+                          <div className="flex items-center gap-2">
+                            <MousePointerClick className="w-4 h-4 text-zinc-500" />
+                            <span className="text-sm font-medium text-white">
+                              {url.visitHistory.length.toLocaleString()}
+                            </span>
+                          </div>
+                        </td>
 
-                    {/* Stats & Date */}
-                    <div className="flex items-center justify-between pt-3 border-t border-white/10">
-                      <div className="flex items-center gap-2">
-                        <div className="p-2 bg-white/10 rounded-lg">
-                          <MousePointerClick className="w-4 h-4 text-gray-300" />
-                        </div>
-                        <div>
-                          <p className="text-xs text-gray-500">Total Clicks</p>
-                          <p className="text-lg font-bold">
-                            {url.visitHistory.length}
-                          </p>
-                        </div>
-                      </div>
+                        {/* Created Date */}
+                        <td className="py-4 px-6 whitespace-nowrap">
+                          <div className="flex items-center gap-2">
+                            <Calendar className="w-4 h-4 text-zinc-500" />
+                            <span className="text-sm text-zinc-400">
+                              {url.createdAt ? new Date(url.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "-"}
+                            </span>
+                          </div>
+                        </td>
 
-                      {url.createdAt && (
-                        <div className="text-right">
-                          <p className="text-xs text-gray-500">Created</p>
-                          <p className="text-xs text-gray-400 font-medium">
-                            {new Date(url.createdAt).toLocaleDateString(
-                              "en-US",
-                              {
-                                month: "short",
-                                day: "numeric",
-                                year: "numeric",
-                              },
-                            )}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* View Details Link */}
-                    <Link
-                      to={`/analytics/${url.shortId}`}
-                      className="block w-full text-center py-2.5 bg-white/5 hover:bg-white/10 rounded-xl text-sm font-medium border border-white/10 hover:border-white/20 transition-all"
-                    >
-                      View Detailed Analytics →
-                    </Link>
-                  </div>
-                </div>
-              ))}
+                        {/* Actions */}
+                        <td className="py-4 px-6 whitespace-nowrap text-right">
+                          <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button
+                              onClick={() => {
+                                navigator.clipboard.writeText(`${window.location.origin}/${url.shortId}`);
+                                toast.success("Short URL copied");
+                              }}
+                              className="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-md transition-colors"
+                              title="Copy"
+                            >
+                              <Copy className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={() => {
+                                setSelectedShort(url.shortId);
+                                setQrOpen(true);
+                              }}
+                              className="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-md transition-colors"
+                              title="QR Code"
+                            >
+                              <QrCode className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={() => {
+                                setSelectedShort(url.shortId);
+                                setAnalyticsOpen(true);
+                              }}
+                              className="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-md transition-colors"
+                              title="Analytics"
+                            >
+                              <BarChart className="w-4 h-4" />
+                            </button>
+                            <div className="h-4 w-px bg-zinc-800 mx-1"></div>
+                            <Link
+                              to={`/analytics/${url.shortId}`}
+                              className="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-md transition-colors"
+                              title="View Details"
+                            >
+                              <ChevronRight className="w-4 h-4" />
+                            </Link>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </>
+        )}
+
+        {selectedShort && qrOpen && (
+          <QRModal
+            open={qrOpen}
+            onClose={() => setQrOpen(false)}
+            shortUrl={`${window.location.origin}/${selectedShort}`}
+          />
+        )}
+
+        {selectedShort && analyticsOpen && (
+          <AnalyticsDashboard
+            shortId={selectedShort}
+            onClose={() => setAnalyticsOpen(false)}
+          />
         )}
       </div>
     </div>

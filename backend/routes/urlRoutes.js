@@ -1,4 +1,4 @@
-const { GenNewShortUrl } = require("../controllers/urlFunctions");
+const { GenNewShortUrl, RecordVisit } = require("../controllers/urlFunctions");
 const { Router } = require("express");
 const { isAuthenticated, isAdmin } = require("../controllers/authHelper");
 const URL = require("../models/urlSchema");
@@ -137,13 +137,47 @@ router.get("/analytics/:shortId", isAuthenticated, async (req, res) => {
   });
 });
 
+/* ---------------- URL PREVIEW (OG SCRAPE) ---------------- */
+router.get("/preview", async (req, res) => {
+  const target = req.query.url;
+
+  if (!target || typeof target !== "string") {
+    return res.status(400).json({ error: "Missing url query parameter" });
+  }
+
+  try {
+    const resp = await fetch(target, { method: "GET" });
+    const text = await resp.text();
+
+    const extract = (prop) => {
+      const re = new RegExp(
+        `<meta[^>]+property=["']${prop}["'][^>]+content=["']([^"']+)["'][^>]*>`,
+        "i",
+      );
+      const m = text.match(re);
+      return m ? m[1] : null;
+    };
+
+    const title = extract("og:title") || extract("twitter:title") || null;
+    const description =
+      extract("og:description") || extract("twitter:description") || null;
+    const image = extract("og:image") || null;
+    const siteName = extract("og:site_name") || null;
+
+    const favicon = `https://s2.googleusercontent.com/s2/favicons?domain_url=${encodeURIComponent(
+      target,
+    )}`;
+
+    res.json({ title, description, image, siteName, favicon });
+  } catch (err) {
+    console.error("Preview fetch error:", err);
+    res.status(500).json({ error: "Failed to fetch preview" });
+  }
+});
+
 /* ---------------- REDIRECT ---------------- */
 router.get("/:shortId", async (req, res) => {
-  const entry = await URL.findOneAndUpdate(
-    { shortId: req.params.shortId },
-    { $push: { visitHistory: { timestamp: Date.now() } } },
-    { new: true },
-  );
+  const entry = await RecordVisit(req.params.shortId, req);
 
   if (!entry) {
     return res.status(404).json({ error: "Invalid short URL" });

@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Aurora from "../components/background";
+import { useNavigate, Link } from "react-router-dom";
 import { apiRequest } from "../api";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "sonner";
-
+import CircularText from "@/components/CircularText";
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -27,7 +26,8 @@ export const LoginPage: React.FC = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     setError("");
     setLoading(true);
 
@@ -74,112 +74,167 @@ export const LoginPage: React.FC = () => {
 
       const userName =
         data.user?.profile?.firstName || data.user?.name || "there";
-      toast.message(`Welcome back, ${userName}!`, {});
+      toast.success(`Welcome back, ${userName}!`);
       navigate("/");
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Network error. Please try again.";
 
       setError(errorMessage);
-      toast.error(errorMessage, {
-        position: "top-right",
-      });
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleKeySubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") handleSubmit();
-  };
-
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center text-white px-6 py-12 relative">
-      <div className="fixed inset-0 z-0">
-        <Aurora />
+    <div className="flex min-h-screen bg-[#09090b] text-zinc-100 font-sans selection:bg-zinc-800 selection:text-white">
+      {/* LEFT SIDE - Brand / Testimonial / Visual (Hidden on mobile) */}
+      <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden border-r border-zinc-800/50 bg-[#040405] p-10 lg:flex">
+        {/* Subtle grid pattern background */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              "linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(to right, #ffffff 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+          }}
+        />
+
+        <div className="flex-1 flex flex-col items-center justify-center relative z-10 min-h-[400px]">
+          <CircularText
+            text="HAPPY*TO*SEE*YOU*BACK*AT*CLIX*"
+            onHover="goBonkers"
+            spinDuration={35}
+            className="w-[300px] h-[300px]"
+          />
+        </div>
+
+        <div className="relative z-10 mt-auto max-w-lg">
+          <h2 className="text-3xl font-medium tracking-tight text-white sm:text-4xl leading-snug mb-6">
+            "The most robust and elegant link management platform we've ever
+            integrated into our workflow."
+          </h2>
+          <div className="flex items-center gap-4">
+            <div className="h-12 w-12 rounded-full bg-zinc-800 border border-zinc-700 overflow-hidden">
+              <img
+                src="https://i.pravatar.cc/100?img=33"
+                alt="Avatar"
+                className="h-full w-full object-cover grayscale opacity-80"
+              />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-white">Shiven Goomer</p>
+              <p className="text-sm text-zinc-400">Me duhh!</p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className="relative z-10 w-full max-w-md">
-        <div className="mt-8 bg-white/[0.03] backdrop-blur-2xl border border-white/10 rounded-2xl p-8 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] hover:border-white/20 transition-all duration-300">
-          <h1 className="text-2xl font-bold text-center  text-white">
-            {isSignup ? "Create Account" : "Welcome Back"}
-          </h1>
-          <div className="text-center mb-8 mt-0">
-            <p className="text-gray-400 text-sm mt-0">
+      {/* RIGHT SIDE - Auth Form */}
+      <div className="flex w-full flex-col justify-center px-6 pt-32 pb-12 lg:w-1/2 lg:px-16 xl:px-24">
+        <div className="mx-auto w-full max-w-md">
+          {/* Mobile Logo */}
+          <div className="mb-8 flex lg:hidden justify-center">
+            <Link to="/" className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-black shadow-lg">
+                <img src="/clix-img.png" alt="logo" className="h-6 w-6" />
+              </div>
+              <span className="text-xl font-bold tracking-tight text-white">
+                Clix
+              </span>
+            </Link>
+          </div>
+
+          <div className="text-left mb-8">
+            <h1 className="text-3xl font-semibold tracking-tight text-white">
+              {isSignup ? "Create an account" : "Log in to your account"}
+            </h1>
+            <p className="mt-2 text-sm text-zinc-400">
               {isSignup
-                ? "Start shortening your links today"
-                : "Sign in to your account"}
+                ? "Enter your details below to get started"
+                : "Enter your credentials to access your workspace"}
             </p>
           </div>
 
           {error && (
-            <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm text-center mb-6 backdrop-blur-sm">
+            <div className="mb-6 rounded-lg border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-400">
               {error}
             </div>
           )}
 
-          <div className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             {isSignup && (
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+              <div className="space-y-2">
+                <label className="text-xs font-medium text-zinc-300">
                   Full Name
                 </label>
                 <input
                   name="name"
                   placeholder="John Doe"
+                  value={form.name}
                   onChange={handleChange}
-                  onKeyDown={handleKeySubmit}
-                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-cyan-400/50 focus:ring-2 focus:ring-cyan-400/20 focus:outline-none transition-all duration-200"
+                  className="w-full rounded-lg border border-zinc-800 bg-zinc-900/50 px-4 py-3 text-sm text-white placeholder-zinc-500 transition-colors focus:border-zinc-500 focus:bg-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-500"
                 />
               </div>
             )}
 
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+            <div className="space-y-2">
+              <label className="text-xs font-medium text-zinc-300">
                 Email Address
               </label>
               <input
                 name="email"
                 type="email"
-                placeholder="you@example.com"
+                placeholder="name@example.com"
+                value={form.email}
                 onChange={handleChange}
-                onKeyDown={handleKeySubmit}
-                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-cyan-400/50 focus:ring-2 focus:ring-cyan-400/20 focus:outline-none transition-all duration-200"
+                className="w-full rounded-lg border border-zinc-800 bg-zinc-900/50 px-4 py-3 text-sm text-white placeholder-zinc-500 transition-colors focus:border-zinc-500 focus:bg-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-500"
               />
             </div>
 
             {isSignup && (
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+              <div className="space-y-2">
+                <label className="text-xs font-medium text-zinc-300">
                   Phone Number
                 </label>
                 <input
                   name="phone"
                   placeholder="+1 (555) 000-0000"
+                  value={form.phone}
                   onChange={handleChange}
-                  onKeyDown={handleKeySubmit}
-                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-cyan-400/50 focus:ring-2 focus:ring-cyan-400/20 focus:outline-none transition-all duration-200"
+                  className="w-full rounded-lg border border-zinc-800 bg-zinc-900/50 px-4 py-3 text-sm text-white placeholder-zinc-500 transition-colors focus:border-zinc-500 focus:bg-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-500"
                 />
               </div>
             )}
 
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Password
-              </label>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-medium text-zinc-300">
+                  Password
+                </label>
+                {!isSignup && (
+                  <a
+                    href="#"
+                    className="text-xs text-zinc-500 hover:text-white transition-colors"
+                  >
+                    Forgot password?
+                  </a>
+                )}
+              </div>
               <div className="relative">
                 <input
                   name="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
+                  value={form.password}
                   onChange={handleChange}
-                  onKeyDown={handleKeySubmit}
-                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-cyan-400/50 focus:ring-2 focus:ring-cyan-400/20 focus:outline-none transition-all duration-200 pr-20"
+                  className="w-full rounded-lg border border-zinc-800 bg-zinc-900/50 px-4 py-3 text-sm text-white placeholder-zinc-500 transition-colors focus:border-zinc-500 focus:bg-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-500 pr-16"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-cyan-400 hover:text-cyan-300 transition-colors px-2 py-1 rounded"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-zinc-500 hover:text-white transition-colors"
                 >
                   {showPassword ? "Hide" : "Show"}
                 </button>
@@ -187,8 +242,8 @@ export const LoginPage: React.FC = () => {
             </div>
 
             {isSignup && (
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+              <div className="space-y-2">
+                <label className="text-xs font-medium text-zinc-300">
                   Confirm Password
                 </label>
                 <div className="relative">
@@ -196,30 +251,31 @@ export const LoginPage: React.FC = () => {
                     name="confirmPassword"
                     type={showConfirmPassword ? "text" : "password"}
                     placeholder="••••••••"
+                    value={form.confirmPassword}
                     onChange={handleChange}
-                    onKeyDown={handleKeySubmit}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-cyan-400/50 focus:ring-2 focus:ring-cyan-400/20 focus:outline-none transition-all duration-200 pr-20"
+                    className="w-full rounded-lg border border-zinc-800 bg-zinc-900/50 px-4 py-3 text-sm text-white placeholder-zinc-500 transition-colors focus:border-zinc-500 focus:bg-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-500 pr-16"
                   />
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-cyan-400 hover:text-cyan-300 transition-colors px-2 py-1 rounded"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-zinc-500 hover:text-white transition-colors"
                   >
                     {showConfirmPassword ? "Hide" : "Show"}
                   </button>
                 </div>
               </div>
             )}
-          </div>
 
-          <button
-            onClick={handleSubmit}
-            disabled={loading}
-            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed mt-6 shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40"
-          >
-            {loading ? (
-              <span className="flex items-center justify-center gap-2">
-                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+            <button
+              type="submit"
+              disabled={loading}
+              className="mt-2 w-full flex items-center justify-center rounded-lg bg-white px-4 py-3 text-sm font-semibold text-black transition-all hover:bg-zinc-200 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? (
+                <svg
+                  className="h-5 w-5 animate-spin text-black"
+                  viewBox="0 0 24 24"
+                >
                   <circle
                     className="opacity-25"
                     cx="12"
@@ -228,47 +284,47 @@ export const LoginPage: React.FC = () => {
                     stroke="currentColor"
                     strokeWidth="4"
                     fill="none"
-                  ></circle>
+                  />
                   <path
                     className="opacity-75"
                     fill="currentColor"
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
+                  />
                 </svg>
-                Processing...
-              </span>
-            ) : isSignup ? (
-              "Create Account"
-            ) : (
-              "Sign In"
-            )}
-          </button>
+              ) : isSignup ? (
+                "Create Account"
+              ) : (
+                "Log In"
+              )}
+            </button>
+          </form>
 
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-white/10"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-transparent text-gray-400">
-                {isSignup
-                  ? "Already have an account?"
-                  : "Don't have an account?"}
-              </span>
-            </div>
+          <div className="mt-8 text-center text-sm text-zinc-500">
+            {isSignup ? "Already have an account? " : "Don't have an account? "}
+            <button
+              type="button"
+              onClick={() => {
+                setIsSignup(!isSignup);
+                setError("");
+              }}
+              className="font-medium text-white hover:underline focus:outline-none"
+            >
+              {isSignup ? "Log in" : "Sign up"}
+            </button>
           </div>
 
-          <button
-            onClick={() => setIsSignup(!isSignup)}
-            className="w-full py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-white font-medium transition-all duration-200"
-          >
-            {isSignup ? "Sign In Instead" : "Create Account"}
-          </button>
+          {/* Footer Text */}
+          <div className="mt-12 text-center text-xs text-zinc-600">
+            By continuing, you agree to our{" "}
+            <a
+              href="#"
+              className="hover:text-zinc-400 underline decoration-zinc-800 underline-offset-4"
+            >
+              Privacy Policy
+            </a>
+            .
+          </div>
         </div>
-
-        {/* Footer */}
-        <p className="text-center text-gray-500 text-xs mt-6">
-          By continuing, you agree to our Terms of Service and Privacy Policy
-        </p>
       </div>
     </div>
   );
