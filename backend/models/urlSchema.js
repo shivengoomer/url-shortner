@@ -21,10 +21,26 @@ const urlSchema = new Schema(
         timestamp: {
           type: Number,
         },
+        userAgent: {
+          type: String,
+          default: "",
+        },
+        referrer: {
+          type: String,
+          default: "",
+        },
+        country: {
+          type: String,
+          default: "",
+        },
+        ip: {
+          type: String,
+          default: "",
+        },
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("url", urlSchema);
