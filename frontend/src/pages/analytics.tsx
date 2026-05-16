@@ -135,113 +135,186 @@ export const AnalyticsListPage: React.FC = () => {
               </div>
             </div>
 
-            {/* DATA TABLE */}
-            <div className="bg-[#040405] border border-zinc-800/60 rounded-2xl shadow-sm overflow-hidden mt-8">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="border-b border-zinc-800/80 bg-zinc-900/30">
-                      <th className="py-4 px-6 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Short Link</th>
-                      <th className="py-4 px-6 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Original URL</th>
-                      <th className="py-4 px-6 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Clicks</th>
-                      <th className="py-4 px-6 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Created</th>
-                      <th className="py-4 px-6 text-xs font-semibold text-zinc-400 uppercase tracking-wider text-right">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-zinc-800/50">
-                    {urls.map((url) => (
-                      <tr key={url._id} className="group hover:bg-zinc-900/20 transition-colors">
-                        {/* Short Link */}
-                        <td className="py-4 px-6 whitespace-nowrap">
-                          <Link
-                            to={`/analytics/${url.shortId}`}
-                            className="inline-flex items-center gap-2 font-medium text-white hover:text-zinc-300 transition-colors"
-                          >
-                            <span className="text-zinc-500">{origin}/</span>
-                            <span>{url.shortId}</span>
-                          </Link>
-                        </td>
+            {/* DATA TABLE / CARDS */}
+            <div className="mt-8">
+              <div className="flex items-center justify-between mb-4 px-1">
+                <h2 className="text-xl font-semibold text-white">All Short Links</h2>
+                <div className="text-xs text-zinc-500 font-medium bg-zinc-900 px-2 py-1 rounded border border-zinc-800">
+                  {urls.length} Total
+                </div>
+              </div>
 
-                        {/* Original URL */}
-                        <td className="py-4 px-6 max-w-[200px] lg:max-w-[300px]">
-                          <a
-                            href={url.longUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-zinc-200 transition-colors truncate w-full"
-                          >
-                            <ExternalLink className="w-3.5 h-3.5 flex-shrink-0" />
-                            <span className="truncate">{url.longUrl}</span>
-                          </a>
-                        </td>
-
-                        {/* Clicks */}
-                        <td className="py-4 px-6 whitespace-nowrap">
-                          <div className="flex items-center gap-2">
-                            <MousePointerClick className="w-4 h-4 text-zinc-500" />
-                            <span className="text-sm font-medium text-white">
-                              {url.visitHistory.length.toLocaleString()}
-                            </span>
-                          </div>
-                        </td>
-
-                        {/* Created Date */}
-                        <td className="py-4 px-6 whitespace-nowrap">
-                          <div className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4 text-zinc-500" />
-                            <span className="text-sm text-zinc-400">
-                              {url.createdAt ? new Date(url.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "-"}
-                            </span>
-                          </div>
-                        </td>
-
-                        {/* Actions */}
-                        <td className="py-4 px-6 whitespace-nowrap text-right">
-                          <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button
-                              onClick={() => {
-                                navigator.clipboard.writeText(`${window.location.origin}/${url.shortId}`);
-                                toast.success("Short URL copied");
-                              }}
-                              className="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-md transition-colors"
-                              title="Copy"
-                            >
-                              <Copy className="w-4 h-4" />
-                            </button>
-                            <button
-                              onClick={() => {
-                                setSelectedShort(url.shortId);
-                                setQrOpen(true);
-                              }}
-                              className="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-md transition-colors"
-                              title="QR Code"
-                            >
-                              <QrCode className="w-4 h-4" />
-                            </button>
-                            <button
-                              onClick={() => {
-                                setSelectedShort(url.shortId);
-                                setAnalyticsOpen(true);
-                              }}
-                              className="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-md transition-colors"
-                              title="Analytics"
-                            >
-                              <BarChart className="w-4 h-4" />
-                            </button>
-                            <div className="h-4 w-px bg-zinc-800 mx-1"></div>
+              {/* Desktop Table View */}
+              <div className="hidden lg:block bg-[#040405] border border-zinc-800/60 rounded-2xl shadow-sm overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-zinc-800/80 bg-zinc-900/30">
+                        <th className="py-4 px-6 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Short Link</th>
+                        <th className="py-4 px-6 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Original URL</th>
+                        <th className="py-4 px-6 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Clicks</th>
+                        <th className="py-4 px-6 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Created</th>
+                        <th className="py-4 px-6 text-xs font-semibold text-zinc-400 uppercase tracking-wider text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-zinc-800/50">
+                      {urls.map((url) => (
+                        <tr key={url._id} className="group hover:bg-zinc-900/20 transition-colors">
+                          <td className="py-4 px-6 whitespace-nowrap">
                             <Link
                               to={`/analytics/${url.shortId}`}
-                              className="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-md transition-colors"
-                              title="View Details"
+                              className="inline-flex items-center gap-2 font-medium text-white hover:text-zinc-300 transition-colors"
                             >
-                              <ChevronRight className="w-4 h-4" />
+                              <span className="text-zinc-500">{origin}/</span>
+                              <span>{url.shortId}</span>
                             </Link>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                          </td>
+                          <td className="py-4 px-6 max-w-[200px] lg:max-w-[300px]">
+                            <a
+                              href={url.longUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-zinc-200 transition-colors truncate w-full"
+                            >
+                              <ExternalLink className="w-3.5 h-3.5 flex-shrink-0" />
+                              <span className="truncate">{url.longUrl}</span>
+                            </a>
+                          </td>
+                          <td className="py-4 px-6 whitespace-nowrap">
+                            <div className="flex items-center gap-2">
+                              <MousePointerClick className="w-4 h-4 text-zinc-500" />
+                              <span className="text-sm font-medium text-white">
+                                {url.visitHistory.length.toLocaleString()}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="py-4 px-6 whitespace-nowrap">
+                            <div className="flex items-center gap-2">
+                              <Calendar className="w-4 h-4 text-zinc-500" />
+                              <span className="text-sm text-zinc-400">
+                                {url.createdAt ? new Date(url.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "-"}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="py-4 px-6 whitespace-nowrap text-right">
+                            <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <button
+                                onClick={() => {
+                                  navigator.clipboard.writeText(`${window.location.origin}/${url.shortId}`);
+                                  toast.success("Short URL copied");
+                                }}
+                                className="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-md transition-colors"
+                                title="Copy"
+                              >
+                                <Copy className="w-4 h-4" />
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setSelectedShort(url.shortId);
+                                  setQrOpen(true);
+                                }}
+                                className="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-md transition-colors"
+                                title="QR Code"
+                              >
+                                <QrCode className="w-4 h-4" />
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setSelectedShort(url.shortId);
+                                  setAnalyticsOpen(true);
+                                }}
+                                className="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-md transition-colors"
+                                title="Analytics"
+                              >
+                                <BarChart className="w-4 h-4" />
+                              </button>
+                              <div className="h-4 w-px bg-zinc-800 mx-1"></div>
+                              <Link
+                                to={`/analytics/${url.shortId}`}
+                                className="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-md transition-colors"
+                                title="View Details"
+                              >
+                                <ChevronRight className="w-4 h-4" />
+                              </Link>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Mobile Card View */}
+              <div className="lg:hidden space-y-4">
+                {urls.map((url) => (
+                  <div key={url._id} className="bg-[#040405] border border-zinc-800/80 rounded-2xl p-5 space-y-4">
+                    <div className="flex items-start justify-between">
+                      <Link
+                        to={`/analytics/${url.shortId}`}
+                        className="flex flex-col gap-1 min-w-0"
+                      >
+                        <span className="text-zinc-500 text-xs font-medium uppercase tracking-wider">Short Link</span>
+                        <span className="text-white font-semibold text-lg truncate">
+                          {origin}/{url.shortId}
+                        </span>
+                      </Link>
+                      <div className="bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-xl flex items-center gap-2">
+                        <MousePointerClick className="w-4 h-4 text-white" />
+                        <span className="text-sm font-bold text-white">
+                          {url.visitHistory.length}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-1 min-w-0">
+                      <span className="text-zinc-500 text-xs font-medium uppercase tracking-wider">Destination</span>
+                      <a
+                        href={url.longUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 text-sm text-zinc-400 truncate"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5 flex-shrink-0" />
+                        <span className="truncate">{url.longUrl}</span>
+                      </a>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-4 border-t border-zinc-800/50">
+                      <div className="flex items-center gap-1.5 text-xs text-zinc-500">
+                        <Calendar className="w-3.5 h-3.5" />
+                        {url.createdAt ? new Date(url.createdAt).toLocaleDateString() : "-"}
+                      </div>
+                      
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText(`${window.location.origin}/${url.shortId}`);
+                            toast.success("Copied");
+                          }}
+                          className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors border border-zinc-800"
+                        >
+                          <Copy className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => {
+                            setSelectedShort(url.shortId);
+                            setAnalyticsOpen(true);
+                          }}
+                          className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors border border-zinc-800"
+                        >
+                          <BarChart className="w-4 h-4" />
+                        </button>
+                        <Link
+                          to={`/analytics/${url.shortId}`}
+                          className="bg-white text-black px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-1.5"
+                        >
+                          Details <ChevronRight className="w-4 h-4" />
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </>

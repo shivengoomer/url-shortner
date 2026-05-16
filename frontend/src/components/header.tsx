@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { Link2, LogOut, User } from "lucide-react";
+import { Link2, LogOut, User, Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const Header: React.FC = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = async () => {
     await logout();
     navigate("/login");
+    setIsMenuOpen(false);
   };
 
   const navLinks = [
@@ -22,9 +25,11 @@ export const Header: React.FC = () => {
     navLinks.push({ name: "Admin", path: "/admin" });
   }
 
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
   return (
     <header className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl">
-      <div className="flex h-14 items-center justify-between px-3 lg:px-4 rounded-full bg-[#09090b]/70 backdrop-blur-2xl border border-zinc-800/80 shadow-2xl">
+      <div className="flex h-14 items-center justify-between px-3 lg:px-4 rounded-full bg-[#09090b]/70 backdrop-blur-2xl border border-zinc-800/80 shadow-2xl relative z-50">
         {/* Logo & Primary Nav */}
         <div className="flex items-center gap-6 lg:gap-10">
           <Link to="/" className="flex items-center gap-2.5 group pl-2">
@@ -61,7 +66,7 @@ export const Header: React.FC = () => {
         {/* User Actions */}
         <div className="flex items-center gap-4">
           {user ? (
-            <div className="flex items-center gap-4 pr-2">
+            <div className="flex items-center gap-2 sm:gap-4 pr-2">
               <Link
                 to="/profile"
                 className="flex items-center gap-2 text-sm font-medium text-zinc-300 hover:text-white transition-colors"
@@ -72,14 +77,22 @@ export const Header: React.FC = () => {
                 <span className="hidden sm:inline-block">{user.name}</span>
               </Link>
 
-              <div className="h-4 w-px bg-zinc-800 hidden sm:block"></div>
+              <div className="h-4 w-px bg-zinc-800 hidden md:block"></div>
 
               <button
                 onClick={handleLogout}
-                className="text-zinc-500 hover:text-red-400 transition-colors flex items-center gap-2 text-sm font-medium"
+                className="text-zinc-500 hover:text-red-400 transition-colors hidden md:flex items-center gap-2 text-sm font-medium"
               >
                 <LogOut className="w-4 h-4" />
-                <span className="hidden sm:inline-block">Sign Out</span>
+                <span>Sign Out</span>
+              </button>
+
+              {/* Mobile Menu Toggle */}
+              <button
+                onClick={toggleMenu}
+                className="md:hidden p-2 text-zinc-400 hover:text-white transition-colors"
+              >
+                {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
             </div>
           ) : (
@@ -92,7 +105,7 @@ export const Header: React.FC = () => {
               </Link>
               <Link
                 to="/auth"
-                className="px-5 py-2 rounded-full bg-white text-black text-sm font-semibold hover:bg-zinc-200 transition-colors shadow-lg"
+                className="hidden sm:inline-flex px-5 py-2 rounded-full bg-white text-black text-sm font-semibold hover:bg-zinc-200 transition-colors shadow-lg"
               >
                 Sign Up
               </Link>
@@ -100,6 +113,49 @@ export const Header: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMenuOpen && user && (
+          <motion.div
+            initial={{ opacity: 0, y: -10, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.98 }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+            className="absolute top-16 right-0 w-48 md:hidden"
+          >
+            <div className="rounded-2xl bg-[#09090b]/95 backdrop-blur-2xl border border-zinc-800/80 shadow-2xl overflow-hidden">
+              <div className="flex flex-col p-1.5 gap-1">
+                {navLinks.map((link) => {
+                  const isActive = location.pathname === link.path;
+                  return (
+                    <Link
+                      key={link.path}
+                      to={link.path}
+                      onClick={() => setIsMenuOpen(false)}
+                      className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                        isActive
+                          ? "bg-zinc-800/80 text-white"
+                          : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40"
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                  );
+                })}
+                <div className="h-px bg-zinc-800/50 my-1 mx-2"></div>
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-medium text-red-400 hover:bg-red-400/10 transition-colors"
+                >
+                  <span>Sign Out</span>
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

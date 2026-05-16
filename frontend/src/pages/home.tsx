@@ -57,52 +57,60 @@ export const HomePage: React.FC = () => {
         {/* HERO */}
         <section
           id="main"
-          className="relative flex min-h-[90vh] items-center justify-center overflow-hidden px-6 pt-32 pb-20 sm:pt-35 sm:pb-24"
+          className="relative flex min-h-[90vh] items-center justify-center overflow-hidden px-6 pt-24 pb-16 sm:pt-35 sm:pb-24"
         >
           <div className="grid w-full max-w-7xl items-center gap-12 lg:grid-cols-2">
             {/* LEFT */}
-            <div className="flex flex-col justify-center">
-              <div className="mb-6 inline-flex w-fit items-center gap-3 rounded-full border border-white/10 bg-white/5 px-5 py-2 backdrop-blur-xl">
-                <img src="/clix-img.png" alt="logo" className="h-6 w-6" />
-                <span className="text-sm text-zinc-300">
+            <div className="flex flex-col justify-center text-center lg:text-left items-center lg:items-start">
+              <div className="mb-6 inline-flex w-fit items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 md:px-5 py-2 backdrop-blur-xl">
+                <img
+                  src="/clix-img.png"
+                  alt="logo"
+                  className="h-5 md:h-6 w-5 md:w-6"
+                />
+                <span className="text-xs md:text-sm text-zinc-300">
                   Modern URL Management Platform
                 </span>
               </div>
 
-              <h1 className="text-5xl font-black leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
+              <h1 className="text-4xl md:text-5xl lg:text-7xl font-black leading-[0.95] tracking-tight">
                 <span className="bg-gradient-to-r from-white via-cyan-100 to-cyan-400 bg-clip-text text-transparent">
                   Share Links
                 </span>
                 <br />
-                <span className="text-zinc-400 text-4xl sm:text-5xl lg:text-6xl">Like a Pro.</span>
+                <span className="text-zinc-400 text-3xl md:text-4xl lg:text-6xl">
+                  Like a Pro.
+                </span>
               </h1>
 
-              <div className="mt-6 flex items-center gap-3 text-xl font-semibold text-zinc-300 sm:text-2xl">
+              <div className="mt-6 flex items-center gap-2 md:gap-3 text-lg md:text-xl lg:text-2xl font-semibold text-zinc-300">
                 Made
                 <RotatingText
                   texts={["Simple", "Faster", "Smarter"]}
-                  className="rounded-xl bg-cyan-400/10 px-3 py-1.5 font-bold text-cyan-300 backdrop-blur-lg"
+                  className="rounded-lg md:rounded-xl bg-cyan-400/10 px-2.5 md:px-3 py-1 md:py-1.5 font-bold text-cyan-300 backdrop-blur-lg"
                   rotationInterval={2500}
                 />
               </div>
 
-              <p className="mt-6 max-w-lg text-base leading-relaxed text-zinc-400 sm:text-lg">
+              <p className="mt-6 max-w-lg text-sm md:text-base lg:text-lg leading-relaxed text-zinc-100">
                 Shorten links, track engagement, monitor analytics, and organize
                 everything from one beautiful workspace designed for modern
                 creators and developers.
               </p>
 
-              <div className="mt-8 flex flex-wrap gap-4">
+              <div className="mt-8 flex flex-wrap gap-3 md:gap-4 justify-center lg:justify-start">
                 <Link
                   to="/shorten"
-                  className="group relative inline-flex items-center justify-center overflow-hidden rounded-xl bg-cyan-500 px-7 py-3.5 font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(34,211,238,0.4)]"
+                  className="group relative inline-flex items-center justify-center overflow-hidden rounded-xl bg-cyan-500 px-6 md:px-7 py-3 md:py-3.5 font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(34,211,238,0.4)]"
                 >
-                  <span className="relative z-10 text-sm">Get Started</span>
+                  <span className="relative z-10 text-xs md:text-sm">
+                    Get Started
+                  </span>
                   <span className="absolute inset-0 bg-white/20 opacity-0 transition duration-300 group-hover:opacity-100" />
                 </Link>
                 <a
                   href="#features"
-                  className="rounded-xl border border-white/10 bg-white/5 px-7 py-3.5 font-medium text-zinc-300 backdrop-blur-xl transition hover:bg-white/10 text-sm"
+                  className="rounded-xl border border-white/10 bg-white/5 px-6 md:px-7 py-3 md:py-3.5 font-medium text-zinc-300 backdrop-blur-xl transition hover:bg-white/10 text-xs md:text-sm"
                 >
                   Explore Features
                 </a>
@@ -201,12 +209,16 @@ export const HomePage: React.FC = () => {
                       </div>
                       <div className="p-6">
                         <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                          <p className="text-xs text-zinc-500 font-semibold uppercase tracking-wider">Original URL</p>
+                          <p className="text-xs text-zinc-500 font-semibold uppercase tracking-wider">
+                            Original URL
+                          </p>
                           <p className="mt-2 truncate text-zinc-300 text-sm">
                             https://myportfolio.com/fullstack-dashboard-case-study
                           </p>
                           <div className="my-5 h-px bg-white/10" />
-                          <p className="text-xs text-zinc-500 font-semibold uppercase tracking-wider">Short URL</p>
+                          <p className="text-xs text-zinc-500 font-semibold uppercase tracking-wider">
+                            Short URL
+                          </p>
                           <div className="mt-2 flex items-center justify-between rounded-xl bg-cyan-400/10 px-4 py-3">
                             <span className="font-semibold text-cyan-300 text-sm">
                               clix.vercel.app/ai24x
@@ -226,7 +238,9 @@ export const HomePage: React.FC = () => {
                             </h3>
                           </div>
                           <div className="rounded-xl bg-white/5 p-4">
-                            <p className="text-xs text-zinc-500 font-semibold uppercase tracking-wider">Engagement</p>
+                            <p className="text-xs text-zinc-500 font-semibold uppercase tracking-wider">
+                              Engagement
+                            </p>
                             <h3 className="mt-1 text-3xl font-black text-cyan-300">
                               98%
                             </h3>
@@ -248,7 +262,9 @@ export const HomePage: React.FC = () => {
                       <div className="p-6">
                         <div className="flex items-center justify-between">
                           <div>
-                            <p className="text-xs text-zinc-500 font-semibold uppercase tracking-wider">Live Users</p>
+                            <p className="text-xs text-zinc-500 font-semibold uppercase tracking-wider">
+                              Live Users
+                            </p>
                             <h2 className="mt-1 text-5xl font-black text-white">
                               1,284
                             </h2>
@@ -288,7 +304,9 @@ export const HomePage: React.FC = () => {
                           ].map(([country, percent]) => (
                             <div key={country}>
                               <div className="mb-1.5 flex items-center justify-between text-xs">
-                                <span className="text-zinc-400 font-medium">{country}</span>
+                                <span className="text-zinc-400 font-medium">
+                                  {country}
+                                </span>
                                 <span className="font-semibold text-white">
                                   {percent}
                                 </span>
@@ -508,52 +526,53 @@ export const HomePage: React.FC = () => {
             <ScrollStack className="relative flex flex-col gap-15 ">
               {/* CARD 1 */}
               <ScrollStackItem>
-                <div className="sticky top-24">
-                  <div className=" relative grid h-[calc(100vh-140px)] min-h-[500px] max-h-[720px] relative rounded-[2.5rem] border border-white/10 bg-[#070B1A]/80 shadow-[0_0_120px_rgba(0,0,0,0.45)] backdrop-blur-3xl lg:grid-cols-2">
+                <div className="sticky top-20 md:top-24">
+                  <div className="relative grid min-h-[500px] lg:h-[calc(100vh-140px)] lg:min-h-[500px] lg:max-h-[720px] rounded-[2rem] md:rounded-[2.5rem] border border-white/10 bg-[#070B1A]/80 shadow-[0_0_120px_rgba(0,0,0,0.45)] backdrop-blur-3xl lg:grid-cols-2 overflow-hidden">
                     {/* LEFT */}
-                    <div className="flex flex-col justify-center p-8 lg:p-12">
-                      <div className="mb-5 inline-flex w-fit items-center gap-2 rounded-full bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-300">
-                        <Link2 className="h-4 w-4" />
+                    <div className="flex flex-col justify-center p-6 md:p-8 lg:p-12 min-w-0">
+                      <div className="mb-4 md:mb-5 inline-flex w-fit items-center gap-2 rounded-full bg-cyan-400/10 px-3 md:px-4 py-1.5 md:py-2 text-[10px] md:text-sm font-semibold text-cyan-300">
+                        <Link2 className="h-3 w-3 md:h-4 md:w-4" />
                         Smart URL Shortening
                       </div>
 
-                      <h3 className="text-4xl font-black leading-tight text-white sm:text-6xl">
+                      <h3 className="text-2xl md:text-4xl lg:text-6xl font-black leading-tight text-white">
                         Beautiful Links
                         <br />
                         Instantly.
                       </h3>
 
-                      <p className="mt-6 max-w-xl text-lg leading-relaxed text-zinc-400">
+                      <p className="mt-3 md:mt-6 max-w-xl text-sm md:text-lg leading-relaxed text-zinc-400">
                         Generate clean, branded, and trackable URLs with
                         real-time analytics, previews, and QR support built
                         directly into your workflow.
                       </p>
 
-                      <div className="mt-1 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
-                        <p className="text-sm text-zinc-500">Original URL</p>
+                      <div className="mt-5 md:mt-8 lg:mt-1 rounded-2xl md:rounded-3xl border border-white/10 bg-white/5 p-4 md:p-6 backdrop-blur-xl min-w-0">
+                        <p className="text-[10px] md:text-sm text-zinc-500 font-semibold uppercase tracking-wider">Original URL</p>
 
-                        <div className="mt-3 truncate text-zinc-300">
+                        <div className="mt-1.5 md:mt-3 truncate text-xs md:text-base text-zinc-300 w-full">
                           https://myportfolio.com/fullstack-dashboard-case-study
                         </div>
 
-                        <div className="my-5 h-px bg-white/10" />
+                        <div className="my-3 md:my-5 h-px bg-white/10" />
 
-                        <p className="text-sm text-zinc-500">Shortened URL</p>
+                        <p className="text-[10px] md:text-sm text-zinc-500 font-semibold uppercase tracking-wider">Shortened URL</p>
 
-                        <div className="mt-3 flex items-center justify-between rounded-2xl bg-cyan-400/10 px-5 py-4">
-                          <span className="font-semibold text-cyan-300">
+                        <div className="mt-1.5 md:mt-3 flex items-center justify-between gap-3 rounded-xl md:rounded-2xl bg-cyan-400/10 px-3 md:px-5 py-2 md:py-4 min-w-0">
+                          <span className="font-semibold text-cyan-300 text-xs md:text-base truncate flex-1">
                             clix.vercel.app/ai24x
                           </span>
 
-                          <button className="rounded-xl bg-white/10 px-4 py-2 text-sm text-white transition hover:bg-white/20">
+                          <button className="flex-shrink-0 rounded-lg md:rounded-xl bg-white/10 px-3 md:px-4 py-1 md:py-2 text-[10px] md:text-sm text-white transition hover:bg-white/20">
                             Copy
                           </button>
                         </div>
                       </div>
                     </div>
 
+
                     {/* RIGHT */}
-                    <div className="relative flex items-center justify-center overflow-hidden p-10">
+                    <div className="relative hidden lg:flex items-center justify-center overflow-hidden p-10">
                       <div className="absolute h-[500px] w-[500px] rounded-full bg-cyan-400/20 blur-[140px]" />
 
                       <div className="relative z-10 rounded-[36px] border border-white/10 bg-black/40 p-8 backdrop-blur-3xl">
@@ -569,26 +588,27 @@ export const HomePage: React.FC = () => {
               </ScrollStackItem>
               {/* CARD 2 */}
               <ScrollStackItem>
-                <div className="grid relative h-[calc(100vh-140px)] min-h-[500px] max-h-[720px] rounded-[2.5rem] border border-white/10 bg-[#070B1A]/80 shadow-[0_0_120px_rgba(0,0,0,0.45)] backdrop-blur-3xl lg:grid-cols-2 overflow-hidden">
+                <div className="sticky top-20 md:top-24">
+                <div className="grid relative min-h-[500px] lg:h-[calc(100vh-140px)] lg:min-h-[500px] lg:max-h-[720px] rounded-[2rem] md:rounded-[2.5rem] border border-white/10 bg-[#070B1A]/80 shadow-[0_0_120px_rgba(0,0,0,0.45)] backdrop-blur-3xl lg:grid-cols-2 overflow-hidden">
                   {/* LEFT */}
-                  <div className="relative flex items-center justify-center p-8 min-w-0">
-                    <div className="absolute h-[450px] w-[450px] rounded-full bg-purple-500/20 blur-[120px]" />
+                  <div className="relative flex items-center justify-center p-6 md:p-8 min-w-0 order-2 lg:order-1">
+                    <div className="absolute h-[250px] md:h-[450px] w-[250px] md:w-[450px] rounded-full bg-purple-500/20 blur-[120px]" />
 
-                    <div className="relative z-10 rounded-[32px] border border-white/10 bg-black/40 p-8 backdrop-blur-2xl">
-                      <div className="rounded-3xl bg-white p-6">
+                    <div className="relative z-10 rounded-[24px] md:rounded-[32px] border border-white/10 bg-black/40 p-5 md:p-8 backdrop-blur-2xl">
+                      <div className="rounded-2xl md:rounded-3xl bg-white p-4 md:p-6">
                         <img
                           src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https://clix.vercel.app/ai24x"
                           alt="QR"
-                          className="rounded-2xl"
+                          className="rounded-xl md:rounded-2xl w-28 h-28 md:w-60 md:h-60"
                         />
                       </div>
 
-                      <div className="mt-6 flex items-center justify-between gap-4">
-                        <button className="flex-1 rounded-2xl bg-cyan-500 px-5 py-3 font-medium text-white transition hover:scale-105 text-sm">
+                      <div className="mt-4 md:mt-6 flex items-center justify-between gap-3 md:gap-4">
+                        <button className="flex-1 rounded-xl md:rounded-2xl bg-cyan-500 px-3 md:px-5 py-2.5 md:py-3 font-medium text-white transition hover:scale-105 text-[10px] md:text-sm">
                           Download PNG
                         </button>
 
-                        <button className="flex-1 rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-zinc-300 transition hover:bg-white/10 text-sm whitespace-nowrap">
+                        <button className="flex-1 rounded-xl md:rounded-2xl border border-white/10 bg-white/5 px-3 md:px-5 py-2.5 md:py-3 text-zinc-300 transition hover:bg-white/10 text-[10px] md:text-sm whitespace-nowrap">
                           Copy Link
                         </button>
                       </div>
@@ -596,90 +616,92 @@ export const HomePage: React.FC = () => {
                   </div>
 
                   {/* RIGHT */}
-                  <div className="flex flex-col justify-center p-8 lg:p-12 min-w-0">
-                    <div className="mb-5 inline-flex w-fit items-center gap-2 rounded-full bg-purple-400/10 px-4 py-2 text-sm font-semibold text-purple-300">
+                  <div className="flex flex-col justify-center p-6 md:p-8 lg:p-12 min-w-0 order-1 lg:order-2">
+                    <div className="mb-4 md:mb-5 inline-flex w-fit items-center gap-2 rounded-full bg-purple-400/10 px-3 md:px-4 py-1.5 md:py-2 text-[10px] md:text-sm font-semibold text-purple-300">
                       QR + Smart Sharing
                     </div>
 
-                    <h3 className="text-4xl font-black leading-tight text-white sm:text-6xl">
+                    <h3 className="text-2xl md:text-4xl lg:text-6xl font-black leading-tight text-white">
                       QR Codes
                       <br />
                       Built In.
                     </h3>
 
-                    <p className="mt-6 max-w-xl text-lg leading-relaxed text-zinc-400">
+                    <p className="mt-3 md:mt-6 max-w-xl text-sm md:text-lg leading-relaxed text-zinc-400">
                       Generate beautiful QR codes instantly for every shortened
                       link. Perfect for events, products, resumes, portfolios,
                       and campaigns.
                     </p>
 
-                    <div className="mt-10 grid grid-cols-2 gap-5">
-                      <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-                        <p className="text-sm text-zinc-500">QR Downloads</p>
-                        <h4 className="mt-2 text-5xl font-black text-white">
+                    <div className="mt-5 md:mt-10 grid grid-cols-2 gap-3 md:gap-5">
+                      <div className="rounded-2xl md:rounded-3xl border border-white/10 bg-white/5 p-4 md:p-6">
+                        <p className="text-[10px] md:text-sm text-zinc-500 font-semibold uppercase tracking-wider">QR Downloads</p>
+                        <h4 className="mt-1 md:mt-2 text-2xl md:text-5xl font-black text-white">
                           12K
                         </h4>
                       </div>
 
-                      <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-                        <p className="text-sm text-zinc-500">Scan Rate</p>
-                        <h4 className="mt-2 text-5xl font-black text-cyan-300">
+                      <div className="rounded-2xl md:rounded-3xl border border-white/10 bg-white/5 p-4 md:p-6">
+                        <p className="text-[10px] md:text-sm text-zinc-500 font-semibold uppercase tracking-wider">Scan Rate</p>
+                        <h4 className="mt-1 md:mt-2 text-2xl md:text-5xl font-black text-cyan-300">
                           84%
                         </h4>
                       </div>
                     </div>
                   </div>
                 </div>
+                </div>
               </ScrollStackItem>
               {/* CARD 3 */}
               <ScrollStackItem>
-                <div className="sticky top-24">
-                  <div className="relative grid h-[calc(100vh-140px)] min-h-[500px] max-h-[720px] rounded-[2.5rem] border border-white/10 bg-[#070B1A]/80 shadow-[0_0_120px_rgba(0,0,0,0.45)] backdrop-blur-3xl lg:grid-cols-2 overflow-hidden">
+                <div className="sticky top-20 md:top-24">
+                  <div className="relative grid min-h-[500px] lg:h-[calc(100vh-140px)] lg:min-h-[500px] lg:max-h-[720px] rounded-[2rem] md:rounded-[2.5rem] border border-white/10 bg-[#070B1A]/80 shadow-[0_0_120px_rgba(0,0,0,0.45)] backdrop-blur-3xl lg:grid-cols-2 overflow-hidden">
                     {/* LEFT */}
-                    <div className="flex flex-col justify-center p-8 lg:p-12 min-w-0">
-                      <div className="mb-5 inline-flex w-fit items-center gap-2 rounded-full bg-green-400/10 px-4 py-2 text-sm font-semibold text-green-300">
-                        <BarChart2 className="h-4 w-4" />
+                    <div className="flex flex-col justify-center p-6 md:p-8 lg:p-12 min-w-0">
+                      <div className="mb-4 md:mb-5 inline-flex w-fit items-center gap-2 rounded-full bg-green-400/10 px-3 md:px-4 py-1.5 md:py-2 text-[10px] md:text-sm font-semibold text-green-300">
+                        <BarChart2 className="h-3 w-3 md:h-4 md:w-4" />
                         Real-time Analytics
                       </div>
 
-                      <h3 className="text-4xl font-black leading-tight text-white sm:text-6xl">
+                      <h3 className="text-2xl md:text-4xl lg:text-6xl font-black leading-tight text-white">
                         Powerful
                         <br />
                         Insights.
                       </h3>
 
-                      <p className="mt-6 max-w-xl text-lg leading-relaxed text-zinc-400">
+                      <p className="mt-3 md:mt-6 max-w-xl text-sm md:text-lg leading-relaxed text-zinc-400">
                         Track devices, clicks, traffic sources, countries,
                         engagement, and user activity with premium dashboards
                         and interactive charts.
                       </p>
 
-                      <div className="mt-10 grid grid-cols-3 gap-4">
-                        <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
-                          <p className="text-[10px] uppercase font-bold text-zinc-500 tracking-wider">Clicks</p>
-                          <h4 className="mt-1 text-3xl font-black text-white">
+                      <div className="mt-5 md:mt-10 grid grid-cols-3 gap-2 md:gap-4">
+                        <div className="rounded-xl md:rounded-3xl border border-white/10 bg-white/5 p-3 md:p-4">
+                          <p className="text-[8px] md:text-[10px] uppercase font-bold text-zinc-500 tracking-wider">Clicks</p>
+                          <h4 className="mt-1 text-lg md:text-3xl font-black text-white">
                             18.2K
                           </h4>
                         </div>
 
-                        <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
-                          <p className="text-[10px] uppercase font-bold text-zinc-500 tracking-wider">Links</p>
-                          <h4 className="mt-1 text-3xl font-black text-white">
+                        <div className="rounded-xl md:rounded-3xl border border-white/10 bg-white/5 p-3 md:p-4">
+                          <p className="text-[8px] md:text-[10px] uppercase font-bold text-zinc-500 tracking-wider">Links</p>
+                          <h4 className="mt-1 text-lg md:text-3xl font-black text-white">
                             142
                           </h4>
                         </div>
 
-                        <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
-                          <p className="text-[10px] uppercase font-bold text-zinc-500 tracking-wider">CTR</p>
-                          <h4 className="mt-1 text-3xl font-black text-cyan-300">
+                        <div className="rounded-xl md:rounded-3xl border border-white/10 bg-white/5 p-3 md:p-4">
+                          <p className="text-[8px] md:text-[10px] uppercase font-bold text-zinc-500 tracking-wider">CTR</p>
+                          <h4 className="mt-1 text-lg md:text-3xl font-black text-cyan-300">
                             74%
                           </h4>
                         </div>
                       </div>
                     </div>
 
+
                     {/* RIGHT */}
-                    <div className="relative flex items-center justify-center p-8 lg:p-12 min-w-0">
+                    <div className="relative hidden lg:flex items-center justify-center p-8 lg:p-12 min-w-0">
                       <div className="absolute h-[500px] w-[500px] rounded-full bg-cyan-400/20 blur-[140px]" />
 
                       <div className="relative z-10 w-full max-w-xl rounded-[2rem] border border-white/10 bg-black/40 p-6 sm:p-8 backdrop-blur-3xl">

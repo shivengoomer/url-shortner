@@ -208,14 +208,15 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
       );
 
       if (unstackProgress > 0) {
+        const isMobile = containerWidth < 768;
         const totalCards = cardsRef.current.length;
         const midIndex = (totalCards - 1) / 2;
         const offsetFromCenter = i - midIndex;
 
-        const fanScale = 0.65;
-        const spreadX = 350; // horizontal pixels between cards
-        const dropY = 60; // vertical drop to create an arc
-        const angleSpread = 12; // degrees to fan out
+        const fanScale = isMobile ? 0.55 : 0.65;
+        const spreadX = isMobile ? 120 : 350; // horizontal pixels between cards
+        const dropY = isMobile ? 30 : 60; // vertical drop to create an arc
+        const angleSpread = isMobile ? 8 : 12; // degrees to fan out
 
         const fanTranslateX = offsetFromCenter * spreadX;
 
@@ -414,7 +415,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
         willChange: "scroll-position",
       }}
     >
-      <div className="scroll-stack-inner pt-[5vh] px-20 pb-0">
+      <div className="scroll-stack-inner pt-[5vh] px-4 md:px-20 pb-0">
         {children}
         {/* Spacer so the last pin can release cleanly */}
         <div className="scroll-stack-end w-full h-px" />
