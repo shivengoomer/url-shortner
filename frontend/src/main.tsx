@@ -7,7 +7,7 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <div
       className="
-    pt-[calc(30px+env(safe-area-inset-top))]
+    pt-[calc(+env(safe-area-inset-top))]
   "
     ></div>
     <App />
