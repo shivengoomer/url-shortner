@@ -65,13 +65,13 @@ export const ProfilePage: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#09090b] text-zinc-100 font-sans selection:bg-zinc-800 selection:text-white px-4 sm:px-6 pt-32 pb-20 sm:pt-40 sm:pb-32 relative">
       {/* Subtle grid pattern background */}
-      <div 
-        className="fixed inset-0 opacity-[0.03] pointer-events-none z-0" 
+      <div
+        className="fixed inset-0 opacity-[0.03] pointer-events-none z-0"
         style={{ backgroundImage: 'linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(to right, #ffffff 1px, transparent 1px)', backgroundSize: '48px 48px' }}
       />
 
       <div className="max-w-3xl mx-auto relative z-10 space-y-8">
-        
+
         {/* HEADER */}
         <header className="flex items-center gap-4 border-b border-zinc-800/50 pb-6">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-zinc-900 border border-zinc-800 shadow-sm">
@@ -81,7 +81,7 @@ export const ProfilePage: React.FC = () => {
             <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white">
               Account Settings
             </h1>
-            <p className="text-sm text-zinc-400">Manage your personal information and workspace preferences.</p>
+            <p className="text-sm text-zinc-200">Manage your personal information and workspace preferences.</p>
           </div>
         </header>
 
@@ -100,7 +100,7 @@ export const ProfilePage: React.FC = () => {
         <div className="bg-[#040405] border border-zinc-800/80 rounded-2xl shadow-xl overflow-hidden">
           <div className="px-6 py-5 border-b border-zinc-800/60 bg-zinc-900/30 flex items-center justify-between">
             <div className="flex items-center gap-2 text-white font-medium">
-              <Settings className="w-4 h-4 text-zinc-400" />
+              <Settings className="w-4 h-4 text-zinc-200" />
               Profile Details
             </div>
             {!editing && (
@@ -116,7 +116,7 @@ export const ProfilePage: React.FC = () => {
           <div className="p-6 sm:p-8 space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="space-y-2 sm:col-span-2">
-                <label className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Email Address</label>
+                <label className="text-xs font-semibold text-zinc-200 uppercase tracking-wider">Email Address</label>
                 <input
                   type="email"
                   value={user.email}
@@ -126,7 +126,7 @@ export const ProfilePage: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">First Name</label>
+                <label className="text-xs font-semibold text-zinc-200 uppercase tracking-wider">First Name</label>
                 <input
                   name="firstName"
                   value={form.firstName}
@@ -138,7 +138,7 @@ export const ProfilePage: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Last Name</label>
+                <label className="text-xs font-semibold text-zinc-200 uppercase tracking-wider">Last Name</label>
                 <input
                   name="lastName"
                   value={form.lastName}
@@ -150,7 +150,7 @@ export const ProfilePage: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Phone</label>
+                <label className="text-xs font-semibold text-zinc-200 uppercase tracking-wider">Phone</label>
                 <input
                   name="phone"
                   value={form.phone}
@@ -162,7 +162,7 @@ export const ProfilePage: React.FC = () => {
               </div>
 
               <div className="space-y-2 sm:col-span-2">
-                <label className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Address</label>
+                <label className="text-xs font-semibold text-zinc-200 uppercase tracking-wider">Address</label>
                 <input
                   name="address"
                   value={form.address}
@@ -174,7 +174,7 @@ export const ProfilePage: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">State / Province</label>
+                <label className="text-xs font-semibold text-zinc-200 uppercase tracking-wider">State / Province</label>
                 <input
                   name="state"
                   value={form.state}
@@ -186,7 +186,7 @@ export const ProfilePage: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">ZIP / Postal Code</label>
+                <label className="text-xs font-semibold text-zinc-200 uppercase tracking-wider">ZIP / Postal Code</label>
                 <input
                   name="zipCode"
                   value={form.zipCode}
@@ -215,7 +215,7 @@ export const ProfilePage: React.FC = () => {
                     });
                   }}
                   disabled={loading}
-                  className="px-4 py-2 text-sm font-medium text-zinc-400 hover:text-white transition-colors flex items-center gap-1.5"
+                  className="px-4 py-2 text-sm font-medium text-zinc-200 hover:text-white transition-colors flex items-center gap-1.5"
                 >
                   <X className="w-4 h-4" /> Cancel
                 </button>

@@ -49,11 +49,10 @@ export const Header: React.FC = () => {
                   <Link
                     key={link.path}
                     to={link.path}
-                    className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                      isActive
-                        ? "bg-zinc-800/80 text-white"
-                        : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40"
-                    }`}
+                    className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${isActive
+                      ? "bg-zinc-800/80 text-white"
+                      : "text-zinc-200 hover:text-zinc-200 hover:bg-zinc-800/40"
+                      }`}
                   >
                     {link.name}
                   </Link>
@@ -72,7 +71,7 @@ export const Header: React.FC = () => {
                 className="flex items-center gap-2 text-sm font-medium text-zinc-300 hover:text-white transition-colors"
               >
                 <div className="h-7 w-7 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center">
-                  <User className="w-3.5 h-3.5 text-zinc-400" />
+                  <User className="w-3.5 h-3.5 text-zinc-200" />
                 </div>
                 <span className="hidden sm:inline-block">{user.name}</span>
               </Link>
@@ -90,7 +89,7 @@ export const Header: React.FC = () => {
               {/* Mobile Menu Toggle */}
               <button
                 onClick={toggleMenu}
-                className="md:hidden p-2 text-zinc-400 hover:text-white transition-colors"
+                className="md:hidden p-2 text-zinc-200 hover:text-white transition-colors"
               >
                 {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
@@ -99,15 +98,9 @@ export const Header: React.FC = () => {
             <div className="flex items-center gap-2 pr-1">
               <Link
                 to="/login"
-                className="text-sm font-medium text-zinc-400 hover:text-white transition-colors px-3 py-1.5 rounded-full hover:bg-zinc-800/40"
+                className="text-sm font-medium bg-white/80 rounded-full text-black hover:text-white transition-colors px-3 py-1.5 hover:bg-zinc-800/40"
               >
                 Log in
-              </Link>
-              <Link
-                to="/auth"
-                className="hidden sm:inline-flex px-5 py-2 rounded-full bg-white text-black text-sm font-semibold hover:bg-zinc-200 transition-colors shadow-lg"
-              >
-                Sign Up
               </Link>
             </div>
           )}
@@ -133,11 +126,10 @@ export const Header: React.FC = () => {
                       key={link.path}
                       to={link.path}
                       onClick={() => setIsMenuOpen(false)}
-                      className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-colors ${
-                        isActive
-                          ? "bg-zinc-800/80 text-white"
-                          : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40"
-                      }`}
+                      className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-colors ${isActive
+                        ? "bg-zinc-800/80 text-white"
+                        : "text-zinc-200 hover:text-zinc-200 hover:bg-zinc-800/40"
+                        }`}
                     >
                       {link.name}
                     </Link>

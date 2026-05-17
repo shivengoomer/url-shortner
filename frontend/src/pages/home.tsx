@@ -73,12 +73,12 @@ export const HomePage: React.FC = () => {
                 </span>
               </div>
 
-              <h1 className="text-4xl md:text-5xl lg:text-7xl font-black leading-[0.95] tracking-tight">
+              <h1 className="text-5xl md:text-5xl lg:text-7xl font-black leading-[0.95] tracking-tight">
                 <span className="bg-gradient-to-r from-white via-cyan-100 to-cyan-400 bg-clip-text text-transparent">
                   Share Links
                 </span>
                 <br />
-                <span className="text-zinc-400 text-3xl md:text-4xl lg:text-6xl">
+                <span className="text-zinc-200 text-4xl md:text-4xl lg:text-6xl">
                   Like a Pro.
                 </span>
               </h1>
@@ -92,7 +92,7 @@ export const HomePage: React.FC = () => {
                 />
               </div>
 
-              <p className="mt-6 max-w-lg text-sm md:text-base lg:text-lg leading-relaxed text-zinc-100">
+              <p className="mt-6 max-w-lg text-lg md:text-base lg:text-lg leading-relaxed text-zinc-100">
                 Shorten links, track engagement, monitor analytics, and organize
                 everything from one beautiful workspace designed for modern
                 creators and developers.
@@ -115,20 +115,6 @@ export const HomePage: React.FC = () => {
                   Explore Features
                 </a>
               </div>
-
-              <motion.div className="mt-10 flex flex-wrap gap-2 text-sm font-medium text-zinc-600">
-                {words.map((word, i) => (
-                  <motion.span
-                    key={i}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: i * 0.06 }}
-                    className="rounded-lg border border-white/5 bg-white/5 px-2.5 py-1 backdrop-blur-xl"
-                  >
-                    {word}
-                  </motion.span>
-                ))}
-              </motion.div>
             </div>
 
             {/* RIGHT */}
@@ -304,7 +290,7 @@ export const HomePage: React.FC = () => {
                           ].map(([country, percent]) => (
                             <div key={country}>
                               <div className="mb-1.5 flex items-center justify-between text-xs">
-                                <span className="text-zinc-400 font-medium">
+                                <span className="text-zinc-200 font-medium">
                                   {country}
                                 </span>
                                 <span className="font-semibold text-white">
@@ -352,7 +338,7 @@ export const HomePage: React.FC = () => {
                     Give it a Try.
                   </span>
                 </h2>
-                <p className="mt-5 text-base leading-relaxed text-zinc-400">
+                <p className="mt-5 text-base leading-relaxed text-zinc-200">
                   Drop a messy, long URL below and watch it transform into a
                   clean, trackable link instantly. Experience the speed and
                   simplicity of our modern platform firsthand.
@@ -514,7 +500,7 @@ export const HomePage: React.FC = () => {
               </span>
             </h2>
 
-            <p className="mx-auto mt-8 max-w-3xl text-lg leading-relaxed text-zinc-400 sm:text-xl">
+            <p className="mx-auto mt-8 max-w-3xl text-lg leading-relaxed text-zinc-200 sm:text-xl">
               Smart analytics, QR generation, beautiful previews, and real-time
               insights — all crafted into one premium link management
               experience.
@@ -541,7 +527,7 @@ export const HomePage: React.FC = () => {
                         Instantly.
                       </h3>
 
-                      <p className="mt-3 md:mt-6 max-w-xl text-sm md:text-lg leading-relaxed text-zinc-400">
+                      <p className="mt-3 md:mt-6 max-w-xl text-sm md:text-lg leading-relaxed text-zinc-200">
                         Generate clean, branded, and trackable URLs with
                         real-time analytics, previews, and QR support built
                         directly into your workflow.
@@ -589,67 +575,67 @@ export const HomePage: React.FC = () => {
               {/* CARD 2 */}
               <ScrollStackItem>
                 <div className="sticky top-20 md:top-24">
-                <div className="grid relative min-h-[500px] lg:h-[calc(100vh-140px)] lg:min-h-[500px] lg:max-h-[720px] rounded-[2rem] md:rounded-[2.5rem] border border-white/10 bg-[#070B1A]/80 shadow-[0_0_120px_rgba(0,0,0,0.45)] backdrop-blur-3xl lg:grid-cols-2 overflow-hidden">
-                  {/* LEFT */}
-                  <div className="relative flex items-center justify-center p-6 md:p-8 min-w-0 order-2 lg:order-1">
-                    <div className="absolute h-[250px] md:h-[450px] w-[250px] md:w-[450px] rounded-full bg-purple-500/20 blur-[120px]" />
+                  <div className="grid relative min-h-[500px] lg:h-[calc(100vh-140px)] lg:min-h-[500px] lg:max-h-[720px] rounded-[2rem] md:rounded-[2.5rem] border border-white/10 bg-[#070B1A]/80 shadow-[0_0_120px_rgba(0,0,0,0.45)] backdrop-blur-3xl lg:grid-cols-2 overflow-hidden">
+                    {/* LEFT */}
+                    <div className="relative flex items-center justify-center p-6 md:p-8 min-w-0 order-2 lg:order-1">
+                      <div className="absolute h-[250px] md:h-[450px] w-[250px] md:w-[450px] rounded-full bg-purple-500/20 blur-[120px]" />
 
-                    <div className="relative z-10 rounded-[24px] md:rounded-[32px] border border-white/10 bg-black/40 p-5 md:p-8 backdrop-blur-2xl">
-                      <div className="rounded-2xl md:rounded-3xl bg-white p-4 md:p-6">
-                        <img
-                          src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https://clix.vercel.app/ai24x"
-                          alt="QR"
-                          className="rounded-xl md:rounded-2xl w-28 h-28 md:w-60 md:h-60"
-                        />
+                      <div className="relative z-10 rounded-[24px] md:rounded-[32px] border border-white/10 bg-black/40 p-5 md:p-8 backdrop-blur-2xl">
+                        <div className="rounded-2xl md:rounded-3xl bg-white p-4 md:p-6">
+                          <img
+                            src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https://clix.vercel.app/ai24x"
+                            alt="QR"
+                            className="rounded-xl md:rounded-2xl w-28 h-28 md:w-60 md:h-60"
+                          />
+                        </div>
+
+                        <div className="mt-4 md:mt-6 flex items-center justify-between gap-3 md:gap-4">
+                          <button className="flex-1 rounded-xl md:rounded-2xl bg-cyan-500 px-3 md:px-5 py-2.5 md:py-3 font-medium text-white transition hover:scale-105 text-[10px] md:text-sm">
+                            Download PNG
+                          </button>
+
+                          <button className="flex-1 rounded-xl md:rounded-2xl border border-white/10 bg-white/5 px-3 md:px-5 py-2.5 md:py-3 text-zinc-300 transition hover:bg-white/10 text-[10px] md:text-sm whitespace-nowrap">
+                            Copy Link
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* RIGHT */}
+                    <div className="flex flex-col justify-center p-6 md:p-8 lg:p-12 min-w-0 order-1 lg:order-2">
+                      <div className="mb-4 md:mb-5 inline-flex w-fit items-center gap-2 rounded-full bg-purple-400/10 px-3 md:px-4 py-1.5 md:py-2 text-[10px] md:text-sm font-semibold text-purple-300">
+                        QR + Smart Sharing
                       </div>
 
-                      <div className="mt-4 md:mt-6 flex items-center justify-between gap-3 md:gap-4">
-                        <button className="flex-1 rounded-xl md:rounded-2xl bg-cyan-500 px-3 md:px-5 py-2.5 md:py-3 font-medium text-white transition hover:scale-105 text-[10px] md:text-sm">
-                          Download PNG
-                        </button>
+                      <h3 className="text-2xl md:text-4xl lg:text-6xl font-black leading-tight text-white">
+                        QR Codes
+                        <br />
+                        Built In.
+                      </h3>
 
-                        <button className="flex-1 rounded-xl md:rounded-2xl border border-white/10 bg-white/5 px-3 md:px-5 py-2.5 md:py-3 text-zinc-300 transition hover:bg-white/10 text-[10px] md:text-sm whitespace-nowrap">
-                          Copy Link
-                        </button>
+                      <p className="mt-3 md:mt-6 max-w-xl text-sm md:text-lg leading-relaxed text-zinc-200">
+                        Generate beautiful QR codes instantly for every shortened
+                        link. Perfect for events, products, resumes, portfolios,
+                        and campaigns.
+                      </p>
+
+                      <div className="mt-5 md:mt-10 grid grid-cols-2 gap-3 md:gap-5">
+                        <div className="rounded-2xl md:rounded-3xl border border-white/10 bg-white/5 p-4 md:p-6">
+                          <p className="text-[10px] md:text-sm text-zinc-500 font-semibold uppercase tracking-wider">QR Downloads</p>
+                          <h4 className="mt-1 md:mt-2 text-2xl md:text-5xl font-black text-white">
+                            12K
+                          </h4>
+                        </div>
+
+                        <div className="rounded-2xl md:rounded-3xl border border-white/10 bg-white/5 p-4 md:p-6">
+                          <p className="text-[10px] md:text-sm text-zinc-500 font-semibold uppercase tracking-wider">Scan Rate</p>
+                          <h4 className="mt-1 md:mt-2 text-2xl md:text-5xl font-black text-cyan-300">
+                            84%
+                          </h4>
+                        </div>
                       </div>
                     </div>
                   </div>
-
-                  {/* RIGHT */}
-                  <div className="flex flex-col justify-center p-6 md:p-8 lg:p-12 min-w-0 order-1 lg:order-2">
-                    <div className="mb-4 md:mb-5 inline-flex w-fit items-center gap-2 rounded-full bg-purple-400/10 px-3 md:px-4 py-1.5 md:py-2 text-[10px] md:text-sm font-semibold text-purple-300">
-                      QR + Smart Sharing
-                    </div>
-
-                    <h3 className="text-2xl md:text-4xl lg:text-6xl font-black leading-tight text-white">
-                      QR Codes
-                      <br />
-                      Built In.
-                    </h3>
-
-                    <p className="mt-3 md:mt-6 max-w-xl text-sm md:text-lg leading-relaxed text-zinc-400">
-                      Generate beautiful QR codes instantly for every shortened
-                      link. Perfect for events, products, resumes, portfolios,
-                      and campaigns.
-                    </p>
-
-                    <div className="mt-5 md:mt-10 grid grid-cols-2 gap-3 md:gap-5">
-                      <div className="rounded-2xl md:rounded-3xl border border-white/10 bg-white/5 p-4 md:p-6">
-                        <p className="text-[10px] md:text-sm text-zinc-500 font-semibold uppercase tracking-wider">QR Downloads</p>
-                        <h4 className="mt-1 md:mt-2 text-2xl md:text-5xl font-black text-white">
-                          12K
-                        </h4>
-                      </div>
-
-                      <div className="rounded-2xl md:rounded-3xl border border-white/10 bg-white/5 p-4 md:p-6">
-                        <p className="text-[10px] md:text-sm text-zinc-500 font-semibold uppercase tracking-wider">Scan Rate</p>
-                        <h4 className="mt-1 md:mt-2 text-2xl md:text-5xl font-black text-cyan-300">
-                          84%
-                        </h4>
-                      </div>
-                    </div>
-                  </div>
-                </div>
                 </div>
               </ScrollStackItem>
               {/* CARD 3 */}
@@ -669,7 +655,7 @@ export const HomePage: React.FC = () => {
                         Insights.
                       </h3>
 
-                      <p className="mt-3 md:mt-6 max-w-xl text-sm md:text-lg leading-relaxed text-zinc-400">
+                      <p className="mt-3 md:mt-6 max-w-xl text-sm md:text-lg leading-relaxed text-zinc-200">
                         Track devices, clicks, traffic sources, countries,
                         engagement, and user activity with premium dashboards
                         and interactive charts.
@@ -723,7 +709,7 @@ export const HomePage: React.FC = () => {
                           ].map(([name, percent]) => (
                             <div key={name}>
                               <div className="mb-2 flex items-center justify-between text-sm">
-                                <span className="text-zinc-400">{name}</span>
+                                <span className="text-zinc-200">{name}</span>
                                 <span className="font-semibold text-white">
                                   {percent}
                                 </span>
@@ -818,7 +804,7 @@ const Step = ({
     </div>
     <div className="md:w-1/2">
       <h3 className="text-3xl font-black sm:text-5xl">{title}</h3>
-      <p className="mt-5 max-w-lg text-lg leading-relaxed text-zinc-400">
+      <p className="mt-5 max-w-lg text-lg leading-relaxed text-zinc-200">
         {text}
       </p>
     </div>
@@ -841,7 +827,7 @@ const FeatureCard = ({
         {icon}
       </div>
       <h3 className="text-2xl font-bold">{title}</h3>
-      <p className="mt-4 leading-relaxed text-zinc-400">{desc}</p>
+      <p className="mt-4 leading-relaxed text-zinc-200">{desc}</p>
     </div>
   </div>
 );
