@@ -207,7 +207,7 @@ export const HomePage: React.FC = () => {
                           </p>
                           <div className="mt-2 flex items-center justify-between rounded-xl bg-cyan-400/10 px-4 py-3">
                             <span className="font-semibold text-cyan-300 text-sm">
-                              clix.vercel.app/ai24x
+                              clix.works/ai24x
                             </span>
                             <button className="rounded-lg bg-white/10 px-3 py-1.5 text-xs text-white transition hover:bg-white/20">
                               Copy
