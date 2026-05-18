@@ -208,55 +208,55 @@ export const AnalyticsDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-zinc-100 font-sans selection:bg-zinc-800 selection:text-white px-4 sm:px-6 pt-32 pb-20 sm:pt-40 sm:pb-32 relative">
+    <div className="min-h-screen bg-[#09090b] text-zinc-100 font-sans selection:bg-zinc-800 selection:text-white px-4 sm:px-6 pt-24 pb-16 sm:pt-40 sm:pb-32 relative">
       {/* Subtle grid pattern background */}
       <div 
         className="fixed inset-0 opacity-[0.03] pointer-events-none z-0" 
         style={{ backgroundImage: 'linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(to right, #ffffff 1px, transparent 1px)', backgroundSize: '48px 48px' }}
       />
 
-      <div className="max-w-6xl mx-auto relative z-10 space-y-8">
+      <div className="max-w-6xl mx-auto relative z-10 space-y-6 sm:space-y-8">
         
         {/* Navigation & Header */}
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           <Link to="/analytics" className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-400 hover:text-white transition-colors">
             <ChevronLeft className="w-4 h-4" /> Back to Dashboard
           </Link>
 
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 bg-[#040405] border border-zinc-800/80 rounded-2xl p-6 sm:p-8 shadow-sm">
-            <div className="space-y-4 flex-1 min-w-0">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-sm font-medium text-white">
-                <Link2 className="w-4 h-4 text-zinc-400" />
-                {window.location.hostname}/<span className="text-zinc-400">{data.reqUrl.shortId}</span>
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-[#040405] border border-zinc-800/80 rounded-2xl p-5 sm:p-8 shadow-sm">
+            <div className="space-y-3 sm:space-y-4 flex-1 min-w-0">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-sm font-medium text-white max-w-full overflow-hidden">
+                <Link2 className="w-4 h-4 text-zinc-400 flex-shrink-0" />
+                <span className="truncate">{window.location.hostname}/{data.reqUrl.shortId}</span>
               </div>
               <a
                 href={data.reqUrl.longUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-300 transition-colors truncate max-w-2xl"
+                className="flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-300 transition-colors truncate max-w-full sm:max-w-2xl"
               >
                 <ExternalLink className="w-3.5 h-3.5 flex-shrink-0" />
                 <span className="truncate">{data.reqUrl.longUrl}</span>
               </a>
               {data.reqUrl.createdAt && (
-                <div className="flex items-center gap-1.5 text-xs text-zinc-500 font-medium tracking-wide uppercase">
+                <div className="flex items-center gap-1.5 text-[10px] sm:text-xs text-zinc-500 font-medium tracking-wide uppercase">
                   <Calendar className="w-3.5 h-3.5" />
                   Created {new Date(data.reqUrl.createdAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
                 </div>
               )}
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               <button
                 onClick={copyShortUrl}
-                className="flex items-center gap-2 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-white rounded-lg text-sm font-medium transition-colors shadow-sm"
+                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-white rounded-lg text-sm font-medium transition-colors shadow-sm"
               >
-                <Copy className="w-4 h-4 text-zinc-400" /> Copy Link
+                <Copy className="w-4 h-4 text-zinc-400" /> Copy <span className="hidden sm:inline">Link</span>
               </button>
               <button
                 onClick={deleteUrl}
                 disabled={deleting}
-                className="flex items-center gap-2 px-4 py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 rounded-lg text-sm font-medium transition-colors shadow-sm disabled:opacity-50"
+                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 rounded-lg text-sm font-medium transition-colors shadow-sm disabled:opacity-50"
               >
                 {deleting ? (
                   <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
@@ -273,49 +273,57 @@ export const AnalyticsDetailPage: React.FC = () => {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          <div className="bg-[#040405] border border-zinc-800/60 rounded-xl p-5 shadow-sm flex flex-col justify-between">
-            <p className="text-zinc-500 text-xs font-semibold uppercase tracking-wider mb-2">Total Clicks</p>
-            <p className="text-3xl font-semibold text-white tracking-tight">{total.toLocaleString()}</p>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+          <div className="bg-[#040405] border border-zinc-800/60 rounded-xl p-4 sm:p-5 shadow-sm flex flex-col justify-between">
+            <p className="text-zinc-500 text-[10px] sm:text-xs font-semibold uppercase tracking-wider mb-2">Total Clicks</p>
+            <p className="text-2xl sm:text-3xl font-semibold text-white tracking-tight">{total.toLocaleString()}</p>
           </div>
-          <div className="bg-[#040405] border border-zinc-800/60 rounded-xl p-5 shadow-sm flex flex-col justify-between">
-            <p className="text-zinc-500 text-xs font-semibold uppercase tracking-wider mb-2">Today</p>
-            <p className="text-3xl font-semibold text-white tracking-tight">{todayCount.toLocaleString()}</p>
+          <div className="bg-[#040405] border border-zinc-800/60 rounded-xl p-4 sm:p-5 shadow-sm flex flex-col justify-between">
+            <p className="text-zinc-500 text-[10px] sm:text-xs font-semibold uppercase tracking-wider mb-2">Today</p>
+            <p className="text-2xl sm:text-3xl font-semibold text-white tracking-tight">{todayCount.toLocaleString()}</p>
           </div>
-          <div className="bg-[#040405] border border-zinc-800/60 rounded-xl p-5 shadow-sm flex flex-col justify-between">
-            <p className="text-zinc-500 text-xs font-semibold uppercase tracking-wider mb-2">This Week</p>
-            <p className="text-3xl font-semibold text-white tracking-tight">{weekCount.toLocaleString()}</p>
+          <div className="bg-[#040405] border border-zinc-800/60 rounded-xl p-4 sm:p-5 shadow-sm flex flex-col justify-between">
+            <p className="text-zinc-500 text-[10px] sm:text-xs font-semibold uppercase tracking-wider mb-2">This Week</p>
+            <p className="text-2xl sm:text-3xl font-semibold text-white tracking-tight">{weekCount.toLocaleString()}</p>
           </div>
-          <div className="bg-[#040405] border border-zinc-800/60 rounded-xl p-5 shadow-sm flex flex-col justify-between">
-            <p className="text-zinc-500 text-xs font-semibold uppercase tracking-wider mb-2">Avg. Clicks / Day</p>
-            <p className="text-3xl font-semibold text-white tracking-tight">{avgClicks}</p>
+          <div className="bg-[#040405] border border-zinc-800/60 rounded-xl p-4 sm:p-5 shadow-sm flex flex-col justify-between">
+            <p className="text-zinc-500 text-[10px] sm:text-xs font-semibold uppercase tracking-wider mb-2">Avg. Clicks</p>
+            <p className="text-2xl sm:text-3xl font-semibold text-white tracking-tight">{avgClicks}</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Chart */}
-          <div className="lg:col-span-2 bg-[#040405] border border-zinc-800/60 rounded-2xl shadow-sm p-6">
-            <h3 className="text-base font-semibold text-white mb-6 flex items-center gap-2">
+          <div className="lg:col-span-2 bg-[#040405] border border-zinc-800/60 rounded-2xl shadow-sm p-5 sm:p-6">
+            <h3 className="text-sm sm:text-base font-semibold text-white mb-6 flex items-center gap-2">
               <TrendingUp className="w-4 h-4 text-zinc-400" /> Performance Overview
             </h3>
             {chartData.length === 0 ? (
-              <div className="h-[300px] flex items-center justify-center text-zinc-500 text-sm">
+              <div className="h-[250px] sm:h-[300px] flex items-center justify-center text-zinc-500 text-sm">
                 No click data available yet.
               </div>
             ) : (
-              <div style={{ width: "100%", height: 300 }}>
-                <ResponsiveContainer>
-                  <AreaChart data={chartData} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
+              <div style={{ width: "100%", height: 250 }} className="sm:h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                     <defs>
                       <linearGradient id="colorClicksDetailed" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#ffffff" stopOpacity={0.1} />
                         <stop offset="95%" stopColor="#ffffff" stopOpacity={0} />
                       </linearGradient>
                     </defs>
-                    <XAxis dataKey="date" stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} dy={10} />
-                    <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} dx={-10} />
+                    <XAxis 
+                      dataKey="date" 
+                      stroke="#52525b" 
+                      fontSize={10} 
+                      tickLine={false} 
+                      axisLine={false} 
+                      dy={10} 
+                      minTickGap={20}
+                    />
+                    <YAxis stroke="#52525b" fontSize={10} tickLine={false} axisLine={false} dx={-10} />
                     <Tooltip 
-                      contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: '8px', color: '#fff' }}
+                      contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: '8px', color: '#fff', fontSize: '12px' }}
                       itemStyle={{ color: '#fff' }}
                     />
                     <Area
@@ -332,10 +340,10 @@ export const AnalyticsDetailPage: React.FC = () => {
             )}
           </div>
 
-          <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
             {/* Devices */}
-            <div className="bg-[#040405] border border-zinc-800/60 rounded-2xl shadow-sm p-6">
-              <h3 className="text-base font-semibold text-white mb-6 flex items-center gap-2">
+            <div className="bg-[#040405] border border-zinc-800/60 rounded-2xl shadow-sm p-5 sm:p-6">
+              <h3 className="text-sm sm:text-base font-semibold text-white mb-6 flex items-center gap-2">
                 <MonitorSmartphone className="w-4 h-4 text-zinc-400" /> Device Distribution
               </h3>
               {pieData.length === 0 ? (
@@ -359,15 +367,15 @@ export const AnalyticsDetailPage: React.FC = () => {
                         ))}
                       </Pie>
                       <Tooltip 
-                        contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: '8px', color: '#fff' }}
+                        contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: '8px', color: '#fff', fontSize: '12px' }}
                         itemStyle={{ color: '#fff' }}
                       />
                     </PieChart>
                   </ResponsiveContainer>
-                  <div className="flex items-center justify-center gap-4 mt-4">
+                  <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-4">
                     {pieData.map((entry, i) => (
-                      <div key={entry.name} className="flex items-center gap-2 text-xs font-medium text-zinc-400">
-                        <div className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: COLORS[i % COLORS.length] }}></div>
+                      <div key={entry.name} className="flex items-center gap-2 text-[10px] sm:text-xs font-medium text-zinc-400">
+                        <div className="w-2.5 h-2.5 rounded-sm flex-shrink-0" style={{ backgroundColor: COLORS[i % COLORS.length] }}></div>
                         {entry.name}
                       </div>
                     ))}
@@ -377,8 +385,8 @@ export const AnalyticsDetailPage: React.FC = () => {
             </div>
 
             {/* Referrers */}
-            <div className="bg-[#040405] border border-zinc-800/60 rounded-2xl shadow-sm p-6">
-              <h3 className="text-base font-semibold text-white mb-6 flex items-center gap-2">
+            <div className="bg-[#040405] border border-zinc-800/60 rounded-2xl shadow-sm p-5 sm:p-6">
+              <h3 className="text-sm sm:text-base font-semibold text-white mb-6 flex items-center gap-2">
                 <Link2 className="w-4 h-4 text-zinc-400" /> Traffic Sources
               </h3>
               {topRefs.length === 0 ? (
@@ -389,8 +397,8 @@ export const AnalyticsDetailPage: React.FC = () => {
                 <div className="space-y-4">
                   {topRefs.map((r) => (
                     <div key={r.name} className="space-y-2">
-                      <div className="flex items-center justify-between text-sm">
-                        <div className="text-zinc-300 font-medium truncate max-w-[160px]">
+                      <div className="flex items-center justify-between text-xs sm:text-sm">
+                        <div className="text-zinc-300 font-medium truncate max-w-[120px] sm:max-w-[160px]">
                           {r.name === 'direct' ? <span className="text-zinc-500">Direct Traffic</span> : r.name}
                         </div>
                         <div className="font-semibold text-white">{r.count.toLocaleString()}</div>

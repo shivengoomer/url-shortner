@@ -55,42 +55,42 @@ export const AnalyticsListPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-zinc-100 font-sans selection:bg-zinc-800 selection:text-white px-4 sm:px-6 pt-32 pb-20 sm:pt-40 sm:pb-32 relative">
+    <div className="min-h-screen bg-[#09090b] text-zinc-100 font-sans selection:bg-zinc-800 selection:text-white px-4 sm:px-6 pt-24 pb-16 sm:pt-40 sm:pb-32 relative">
       {/* Subtle grid pattern background */}
       <div 
         className="fixed inset-0 opacity-[0.03] pointer-events-none z-0" 
         style={{ backgroundImage: 'linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(to right, #ffffff 1px, transparent 1px)', backgroundSize: '48px 48px' }}
       />
 
-      <div className="max-w-7xl mx-auto space-y-10 sm:space-y-12 relative z-10">
+      <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12 relative z-10">
         {/* HEADER */}
-        <header className="text-center space-y-4 border-b border-zinc-800/50 pb-10">
+        <header className="text-center space-y-3 sm:space-y-4 border-b border-zinc-800/50 pb-8 sm:pb-10">
           <div className="flex flex-row justify-center items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white text-black shadow-lg">
-              <TrendingUp className="w-6 h-6" strokeWidth={2.5} />
+            <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-white text-black shadow-lg">
+              <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6" strokeWidth={2.5} />
             </div>
-            <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-white">
+            <h1 className="text-3xl sm:text-5xl font-semibold tracking-tight text-white">
               Analytics Dashboard
             </h1>
           </div>
 
-          <p className="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-lg text-zinc-400 max-w-2xl mx-auto px-2">
             Track and monitor performance metrics for all your shortened links across your workspace.
           </p>
         </header>
 
         {loading ? (
-          <div className="text-center py-24">
+          <div className="text-center py-20 sm:py-24">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-2 border-zinc-800 border-t-white"></div>
-            <p className="mt-4 text-sm text-zinc-500">Loading workspace analytics...</p>
+            <p className="mt-4 text-xs sm:text-sm text-zinc-500">Loading workspace analytics...</p>
           </div>
         ) : urls.length === 0 ? (
-          <div className="text-center py-24 bg-[#040405] rounded-2xl border border-zinc-800/50">
-            <div className="flex h-16 w-16 mx-auto mb-6 items-center justify-center rounded-2xl bg-zinc-900 border border-zinc-800">
-              <Link2 className="w-8 h-8 text-zinc-500" />
+          <div className="text-center py-16 sm:py-24 bg-[#040405] rounded-2xl border border-zinc-800/50">
+            <div className="flex h-12 w-12 sm:h-16 sm:w-16 mx-auto mb-4 sm:mb-6 items-center justify-center rounded-2xl bg-zinc-900 border border-zinc-800">
+              <Link2 className="w-6 h-6 sm:w-8 sm:h-8 text-zinc-500" />
             </div>
-            <h3 className="text-xl font-semibold text-white">No active links</h3>
-            <p className="text-zinc-500 text-sm mt-2 max-w-sm mx-auto mb-6">
+            <h3 className="text-lg sm:text-xl font-semibold text-white">No active links</h3>
+            <p className="text-zinc-500 text-xs sm:text-sm mt-2 max-w-sm mx-auto mb-6 px-4">
               You haven't created any short links in this workspace yet. Create one to start tracking analytics.
             </p>
             <Link to="/shorten" className="inline-flex items-center justify-center rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-black transition-all hover:bg-zinc-200">
@@ -100,46 +100,46 @@ export const AnalyticsListPage: React.FC = () => {
         ) : (
           <>
             {/* STATS SUMMARY */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-              <div className="bg-[#040405] border border-zinc-800/60 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="h-2 w-2 rounded-full bg-zinc-400" />
-                  <p className="text-zinc-400 text-sm font-medium">Total Active Links</p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-6">
+              <div className="bg-[#040405] border border-zinc-800/60 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col justify-between">
+                <div className="flex items-center gap-2 mb-3 sm:mb-4">
+                  <div className="h-1.5 w-1.5 rounded-full bg-zinc-400" />
+                  <p className="text-zinc-400 text-[10px] sm:text-sm font-medium">Active Links</p>
                 </div>
-                <p className="text-4xl sm:text-5xl font-semibold text-white tracking-tight">{urls.length}</p>
+                <p className="text-2xl sm:text-5xl font-semibold text-white tracking-tight">{urls.length}</p>
               </div>
               
-              <div className="bg-[#040405] border border-zinc-800/60 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="h-2 w-2 rounded-full bg-white" />
-                  <p className="text-zinc-400 text-sm font-medium">Total Engagement (Clicks)</p>
+              <div className="bg-[#040405] border border-zinc-800/60 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col justify-between">
+                <div className="flex items-center gap-2 mb-3 sm:mb-4">
+                  <div className="h-1.5 w-1.5 rounded-full bg-white" />
+                  <p className="text-zinc-400 text-[10px] sm:text-sm font-medium">Engagement</p>
                 </div>
-                <p className="text-4xl sm:text-5xl font-semibold text-white tracking-tight">
+                <p className="text-2xl sm:text-5xl font-semibold text-white tracking-tight">
                   {urls.reduce((sum, url) => sum + url.visitHistory.length, 0).toLocaleString()}
                 </p>
               </div>
 
-              <div className="bg-[#040405] border border-zinc-800/60 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="h-2 w-2 rounded-full bg-zinc-600" />
-                  <p className="text-zinc-400 text-sm font-medium">Average Conversion Rate</p>
+              <div className="bg-[#040405] border border-zinc-800/60 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col justify-between col-span-2 sm:col-span-1">
+                <div className="flex items-center gap-2 mb-3 sm:mb-4">
+                  <div className="h-1.5 w-1.5 rounded-full bg-zinc-600" />
+                  <p className="text-zinc-400 text-[10px] sm:text-sm font-medium">Conversion Rate</p>
                 </div>
-                <p className="text-4xl sm:text-5xl font-semibold text-white tracking-tight">
+                <p className="text-2xl sm:text-5xl font-semibold text-white tracking-tight">
                   {Math.round(
                     urls.reduce(
                       (sum, url) => sum + url.visitHistory.length,
                       0,
                     ) / urls.length,
-                  )} <span className="text-xl text-zinc-600 font-normal">/ link</span>
+                  )} <span className="text-xs sm:text-xl text-zinc-600 font-normal">/ link</span>
                 </p>
               </div>
             </div>
 
             {/* DATA TABLE / CARDS */}
-            <div className="mt-8">
+            <div className="mt-4 sm:mt-8">
               <div className="flex items-center justify-between mb-4 px-1">
-                <h2 className="text-xl font-semibold text-white">All Short Links</h2>
-                <div className="text-xs text-zinc-500 font-medium bg-zinc-900 px-2 py-1 rounded border border-zinc-800">
+                <h2 className="text-lg sm:text-xl font-semibold text-white">All Short Links</h2>
+                <div className="text-[10px] sm:text-xs text-zinc-500 font-medium bg-zinc-900 px-2 py-1 rounded border border-zinc-800">
                   {urls.length} Total
                 </div>
               </div>
@@ -246,42 +246,42 @@ export const AnalyticsListPage: React.FC = () => {
               </div>
 
               {/* Mobile Card View */}
-              <div className="lg:hidden space-y-4">
+              <div className="lg:hidden space-y-3 sm:space-y-4">
                 {urls.map((url) => (
-                  <div key={url._id} className="bg-[#040405] border border-zinc-800/80 rounded-2xl p-5 space-y-4">
+                  <div key={url._id} className="bg-[#040405] border border-zinc-800/80 rounded-xl sm:rounded-2xl p-4 sm:p-5 space-y-4">
                     <div className="flex items-start justify-between">
                       <Link
                         to={`/analytics/${url.shortId}`}
                         className="flex flex-col gap-1 min-w-0"
                       >
-                        <span className="text-zinc-500 text-xs font-medium uppercase tracking-wider">Short Link</span>
-                        <span className="text-white font-semibold text-lg truncate">
+                        <span className="text-zinc-500 text-[10px] font-medium uppercase tracking-wider">Short Link</span>
+                        <span className="text-white font-semibold text-base sm:text-lg truncate">
                           {origin}/{url.shortId}
                         </span>
                       </Link>
-                      <div className="bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-xl flex items-center gap-2">
-                        <MousePointerClick className="w-4 h-4 text-white" />
-                        <span className="text-sm font-bold text-white">
+                      <div className="bg-zinc-900 border border-zinc-800 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg sm:rounded-xl flex items-center gap-1.5 sm:gap-2">
+                        <MousePointerClick className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
+                        <span className="text-xs sm:text-sm font-bold text-white">
                           {url.visitHistory.length}
                         </span>
                       </div>
                     </div>
 
                     <div className="flex flex-col gap-1 min-w-0">
-                      <span className="text-zinc-500 text-xs font-medium uppercase tracking-wider">Destination</span>
+                      <span className="text-zinc-500 text-[10px] font-medium uppercase tracking-wider">Destination</span>
                       <a
                         href={url.longUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 text-sm text-zinc-400 truncate"
+                        className="flex items-center gap-1.5 text-xs sm:text-sm text-zinc-400 truncate"
                       >
                         <ExternalLink className="w-3.5 h-3.5 flex-shrink-0" />
                         <span className="truncate">{url.longUrl}</span>
                       </a>
                     </div>
 
-                    <div className="flex items-center justify-between pt-4 border-t border-zinc-800/50">
-                      <div className="flex items-center gap-1.5 text-xs text-zinc-500">
+                    <div className="flex items-center justify-between pt-3 sm:pt-4 border-t border-zinc-800/50">
+                      <div className="flex items-center gap-1.5 text-[10px] sm:text-xs text-zinc-500">
                         <Calendar className="w-3.5 h-3.5" />
                         {url.createdAt ? new Date(url.createdAt).toLocaleDateString() : "-"}
                       </div>
@@ -292,24 +292,24 @@ export const AnalyticsListPage: React.FC = () => {
                             navigator.clipboard.writeText(`${window.location.origin}/${url.shortId}`);
                             toast.success("Copied");
                           }}
-                          className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors border border-zinc-800"
+                          className="p-1.5 sm:p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors border border-zinc-800"
                         >
-                          <Copy className="w-4 h-4" />
+                          <Copy className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                         </button>
                         <button
                           onClick={() => {
                             setSelectedShort(url.shortId);
                             setAnalyticsOpen(true);
                           }}
-                          className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors border border-zinc-800"
+                          className="p-1.5 sm:p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors border border-zinc-800"
                         >
-                          <BarChart className="w-4 h-4" />
+                          <BarChart className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                         </button>
                         <Link
                           to={`/analytics/${url.shortId}`}
-                          className="bg-white text-black px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-1.5"
+                          className="bg-white text-black px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-1 sm:gap-1.5"
                         >
-                          Details <ChevronRight className="w-4 h-4" />
+                          Details <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                         </Link>
                       </div>
                     </div>
@@ -320,21 +320,22 @@ export const AnalyticsListPage: React.FC = () => {
           </>
         )}
 
-        {selectedShort && qrOpen && (
-          <QRModal
-            open={qrOpen}
-            onClose={() => setQrOpen(false)}
-            shortUrl={`${window.location.origin}/${selectedShort}`}
-          />
-        )}
-
-        {selectedShort && analyticsOpen && (
-          <AnalyticsDashboard
-            shortId={selectedShort}
-            onClose={() => setAnalyticsOpen(false)}
-          />
-        )}
       </div>
+
+      {selectedShort && qrOpen && (
+        <QRModal
+          open={qrOpen}
+          onClose={() => setQrOpen(false)}
+          shortUrl={`${window.location.origin}/${selectedShort}`}
+        />
+      )}
+
+      {selectedShort && analyticsOpen && (
+        <AnalyticsDashboard
+          shortId={selectedShort}
+          onClose={() => setAnalyticsOpen(false)}
+        />
+      )}
     </div>
   );
 };

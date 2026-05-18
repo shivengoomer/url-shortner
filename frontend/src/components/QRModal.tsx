@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 
 declare global {
   interface Window {
@@ -30,7 +31,7 @@ const QRModal: React.FC<Props> = ({ open, onClose, shortUrl }) => {
       setLoaded(true);
     }
 
-    return () => {};
+    return () => { };
   }, [open]);
 
   useEffect(() => {
@@ -53,6 +54,7 @@ const QRModal: React.FC<Props> = ({ open, onClose, shortUrl }) => {
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(shortUrl);
+    toast.success("Link Copied to clipboard")
   };
 
   const handleDownload = () => {
